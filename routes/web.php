@@ -11,4 +11,7 @@
 |
 */
 
-Route::get('/', 'BookController@index');
+Auth::routes();
+Route::get('/', 'BookController@index')->name('books.index');
+// リソースフルルートでルート定義
+Route::resource('/books', 'BookController')->except(['index']); 
