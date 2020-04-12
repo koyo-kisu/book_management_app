@@ -52,4 +52,11 @@ class BookController extends Controller
     {
         return view('books.show', ['book' => $book]);
     }
+
+    // 削除処理アクション
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('books.index');
+    }
 }
