@@ -33,4 +33,17 @@ class BookController extends Controller
         $book->save();
         return redirect()->route('books.index');
     }
+
+    // 本情報更新画面表示アクション
+    public function edit(Book $book)
+    {
+        return view('books.edit', ['book' => $book]);    
+    }
+
+    // 本情報更新処理アクション
+    public function update(BookRequest $request, Book $book)
+    {
+        $book->fill($request->all())->save();
+        return redirect()->route('books.index');
+    }
 }
