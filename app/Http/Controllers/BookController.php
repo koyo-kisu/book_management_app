@@ -11,7 +11,7 @@ class BookController extends Controller
     // メイン画面アクション
     public function index()
     {
-        $books = Book::all();
+        $books = Book::all()->sortByDesc('created_at');
         return view('books.index', [ 'books' => $books ]);
     }
 
@@ -31,6 +31,19 @@ class BookController extends Controller
         $book->book_image = $request->book_image;
         $book->state = $request->state;
         $book->save();
+        return redirect()->route('books.index');
+    }
+
+    // 本情報更新画面表示アクション
+    public function edit(Book $book)
+    {
+        return view('books.edit', ['book' => $book]);    
+    }
+
+    // 本情報更新処理アクション
+    public function update(BookRequest $request, Book $book)
+    {
+        $book->fill($request->all())->save();
         return redirect()->route('books.index');
     }
 }
