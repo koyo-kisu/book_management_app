@@ -18,7 +18,7 @@ class BooksTableSeeder extends Seeder
                 'publisher' => '新潮文庫',
                 'description' => 'textext',
                 'book_image' => 'aaaa',
-                'state' => true,
+                'state' => "1",
                 'created_at' => '2014_10_12',
                 'updated_at' => '2014_10_12'
             ],
@@ -28,7 +28,7 @@ class BooksTableSeeder extends Seeder
                 'publisher' => '新潮文庫',
                 'description' => 'textext',
                 'book_image' => 'aaaa',
-                'state' => true,
+                'state' => "1",
                 'created_at' => '2014_10_12',
                 'updated_at' => '2014_10_12'
             ],
@@ -38,7 +38,7 @@ class BooksTableSeeder extends Seeder
                 'publisher' => '新潮文庫',
                 'description' => 'textext',
                 'book_image' => 'aaaa',
-                'state' => true,
+                'state' => "2",
                 'created_at' => '2014_10_12',
                 'updated_at' => '2014_10_12'
             ],
