@@ -11,7 +11,7 @@ class BookController extends Controller
     // メイン画面アクション
     public function index()
     {
-        $books = Book::all();
+        $books = Book::all()->sortByDesc('created_at');
         return view('books.index', [ 'books' => $books ]);
     }
 
