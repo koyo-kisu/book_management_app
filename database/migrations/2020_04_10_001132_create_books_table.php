@@ -20,11 +20,10 @@ class CreateBooksTable extends Migration
             $table->string('book_image');
             $table->string('publisher');
             $table->text('description');
-            $table->boolean('state');
+            $table->string('state');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
