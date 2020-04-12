@@ -46,4 +46,10 @@ class BookController extends Controller
         $book->fill($request->all())->save();
         return redirect()->route('books.index');
     }
+
+    // 詳細画面表示アクション
+    public function show(Book $book)
+    {
+        return view('books.show', ['book' => $book]);
+    }
 }
