@@ -10,7 +10,7 @@
       <div class="col-12">
         <div class="card mt-3">
           <div class="card-body pt-0">
-            <!-- ここにerror表示処理追加 -->
+            @include('error_card_list')
             <div class="card-text">
               <!-- updateアクションに変数bookを渡す -->
               <form method="POST" action="{{ route('books.update', ['book' => $book]) }}">
