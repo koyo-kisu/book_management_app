@@ -1,10 +1,12 @@
 @extends('app')
 
-@section('title', '本の詳細')
+@section('title', '詳細画面')
 
 @section('content')
   @include('nav')
   <div class="container">
-    @include('books.card')
+    <div class="row mb-5 mt-3">
+      @include('books.detail')  
+    </div>
   </div>
 @endsection

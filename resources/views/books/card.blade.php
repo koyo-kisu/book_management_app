@@ -10,11 +10,15 @@
       <!-- /public/storage配下に保存している画像を表示 -->
       @if(!empty($book->book_image))
       <div class="image-wrapper">
-        <img src="{{ asset('storage/images' . $book->book_image ) }}" alt="image" class="card-img-top">        
+        <a href="{{ route('books.show', ['book' => $book]) }}">
+          <img src="{{ asset('storage/images' . $book->book_image ) }}" alt="image" class="card-img-top">
+        </a>
       </div>
       @else
       <div class='image-wrapper'>
-        <img src="http://placehold.it/289.98x200" alt="ダミー画像">
+        <a href="{{ route('books.show', ['book' => $book]) }}">
+          <img src="http://placehold.it/289.98x200" alt="ダミー画像">
+        </a>
       </div>
       @endif
 
