@@ -11,9 +11,9 @@
   <label>出版社</label>
   <input type="text" name="publisher" class="form-control" value="{{ $book->publisher ?? old('publisher') }}">
 </div>
+<p>表示画像</p>
 <div class="md-form">
-  <label>表紙画像</label>
-  <input type="text" name="book_image" class="form-control" value="{{ $book->book_image ?? old('book_image') }}">
+  <input type="file" class="form-control" name="book_image" value="{{ $book->book_image ?? old('book_image') }}">
 </div>
 <div class="md-form">
   <input type="radio" name="state" class="form-control" value="1">貸出できます

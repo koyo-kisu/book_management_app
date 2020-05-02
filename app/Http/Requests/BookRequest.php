@@ -25,7 +25,7 @@ class BookRequest extends FormRequest
     {
         return [
             'title' => 'required|max:50',
-            'description' => 'required|max:500',
+            'description' => 'max:500',
         ];
     }
 
@@ -34,6 +34,7 @@ class BookRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'description' => '書籍の説明',
+            'book_image' => '表示画像'
         ];
     }
 }
