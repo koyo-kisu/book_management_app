@@ -84,18 +84,16 @@
       <!-- ここからCardText -->
       <div class="card-text">
         <div>{{ $book->author }}</div>
-        <!-- @if( $book->state === "1" )
-          <div>貸出可能</div>
-        @else
-          <div>貸出不可能</div>
-        @endif -->
-
         <hr>
         <span class="float-left mt-3">
           <i class="fas fa-heart ml-1">10</i>
         </span>
         <span class="float-right mt-3">
-          <p>予約する</p>
+          @if( $book->state === "1" )
+            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
+          @else
+            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
+          @endif
         </span>
       </div>
       <!-- ここまでCardText -->
