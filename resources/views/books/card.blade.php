@@ -1,10 +1,25 @@
-<div class="card mt-3">
-  <div class="card-body d-flex flex-row">
-  <h3 class="h4 card-title">
-    <a class="text-dark" href="{{ route('books.show', ['book' => $book]) }}">
-      {{ $book->title }}
-    </a>
-  </h3>
+<!-- ここからCardColumn -->
+<div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
+  
+  <!-- ここからCard -->
+  <div class="card card-cascade wider card-ecommerce mb-4">
+
+    <!-- ここからCardImage -->
+    <div class="view view-cascade overlay">
+      
+      <!-- /public/storage配下に保存している画像を表示 -->
+      @if(!empty($book->book_image))
+      <div class="image-wrapper">
+        <img src="{{ asset('storage/images' . $book->book_image ) }}" alt="image" class="card-img-top">        
+      </div>
+      @else
+      <div class='image-wrapper'>
+        <img src="http://placehold.it/289.98x200" alt="ダミー画像">
+      </div>
+      @endif
+
+    </div>
+    <!-- ここまでCardImage -->
 
     <!-- 管理者にのみ表示させるアイコンなので、ユーザー判定が今後必要 -->
     <!-- ここからdropdown -->
@@ -52,20 +67,37 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- ここまでmodal -->
+    <!-- ここまでmodal -->
 
-  <div class="card-body pt-0">
-    <div class="card-text">
-      <div>{{ $book->author }}</div>
-      <div>{{ $book->publisher }}</div>
-      <div>{{ $book->description }}</div>
-      <div>{{ $book->book_image }}</div>
-      @if( $book->state === "1" )
-        <div>貸出可能</div>
-      @else
-        <div>貸出不可能</div>
-      @endif
+    <!-- ここからCardContent -->
+    <div class="card-body card-body-cascade text-center">
+      <p class="card-title">
+        <a class="text-dark" href="{{ route('books.show', ['book' => $book]) }}">
+          {{ $book->title }}
+        </a>
+      </p>
+
+      <!-- ここからCardText -->
+      <div class="card-text">
+        <div>{{ $book->author }}</div>
+        <!-- @if( $book->state === "1" )
+          <div>貸出可能</div>
+        @else
+          <div>貸出不可能</div>
+        @endif -->
+
+        <hr>
+        <span class="float-left mt-3">
+          <i class="fas fa-heart ml-1">10</i>
+        </span>
+        <span class="float-right mt-3">
+          <p>予約する</p>
+        </span>
+      </div>
+      <!-- ここまでCardText -->
     </div>
+    <!-- ここまでCardContent -->
   </div>
+  <!-- ここまでCard -->
 </div>
+<!-- ここまでCardColumn -->

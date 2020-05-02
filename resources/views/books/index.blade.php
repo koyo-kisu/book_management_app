@@ -5,8 +5,10 @@
 @section('content')
   @include('nav')
   <div class="container">
-    @foreach($books as $book)
-      @include('books.card')
-    @endforeach
+    <div class="row mb-5 mt-3">
+      @foreach($books as $book)
+        @include('books.card')
+      @endforeach
+    </div>
   </div>
 @endsection

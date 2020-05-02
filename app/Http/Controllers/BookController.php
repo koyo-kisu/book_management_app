@@ -28,10 +28,17 @@ class BookController extends Controller
         $book->author = $request->author;
         $book->publisher = $request->publisher;
         $book->description = $request->description;
-        $book->book_image = $request->book_image;
         $book->state = $request->state;
+        // 送られてきたファイルに名前をつける
+        // $file_name = $request->file('book_image')->getClientOriginalName();
+        // storage/app/publicにファイルを保存
+        $path = $request->hasFile('book_image')->store('public/images');
+        // 画像名のみ保存
+        $book->book_image = basename($path);
         $book->save();
-        return redirect()->route('books.index');
+        return redirect()
+                ->route('books.index')
+                ->with('file_name', basename($path));
     }
 
     // 本情報更新画面表示アクション
