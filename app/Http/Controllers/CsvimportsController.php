@@ -74,8 +74,6 @@ class CsvimportsController extends Controller
             }
             $row_count++;
         }
-
-        var_dump($row);
         
         return view('books.index');
     }
