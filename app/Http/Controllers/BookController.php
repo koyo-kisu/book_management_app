@@ -66,4 +66,27 @@ class BookController extends Controller
         $book->delete();
         return redirect()->route('books.index');
     }
+
+    // いいねアクション
+    public function like(Request $request, Book $book)
+    {
+        $book->likes()->detach($request->user()->id);
+        $book->likes()->attach($request->user()->id);
+
+        return [
+            'id' => $book->id,
+            'countLikes' => $book->count_likes,
+        ];
+    }
+
+    // いいね解除アクション
+    public function unlike(Request $request, Book $book)
+    {
+        $book->likes()->detach($request->user()->id);
+
+        return [
+            'id' => $book->id,
+            'countLikes' => $book->count_likes,
+        ];
+    }
 }
