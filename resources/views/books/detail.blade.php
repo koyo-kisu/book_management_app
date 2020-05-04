@@ -25,6 +25,15 @@
     
     <h4 class="border-bottom">出版社</h4>
     <div class="mb-5">{{ $book->publisher }}</div>
+
+    <h4 class="border-bottom">タグ</h4>
+    <div class="mb-5">
+      @foreach($book->tags as $tag)
+        <a href="" class="border p-1 mr-1 mt-1 text-muted">
+          {{ $tag->name }}
+        </a>
+      @endforeach
+    </div>
     
     <h4 class="border-bottom">詳細</h4>
     <div class="detail_text mb-5 text-break">{{ $book->description }}</div>
