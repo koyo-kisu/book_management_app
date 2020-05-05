@@ -26,6 +26,7 @@ class BookRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'description' => 'max:500',
+            'tags' => 'json|regex:/^(?!.*\s).+$/u',
         ];
     }
 
@@ -34,7 +35,19 @@ class BookRequest extends FormRequest
         return [
             'title' => 'タイトル',
             'description' => '書籍の説明',
-            'book_image' => '表示画像'
+            'book_image' => '表示画像',
+            'tags' => 'タグ',
         ];
+    }
+
+    // フォームリクエストのバリデーションが成功した後に自動的に呼ばれるメソッド
+    public function passedValidation()
+    {
+        // 連想配列に変換、さらにコレクションに変換
+        $this->tags = collect(json_decode($this->tags))
+            ->slice(0, 5)
+            ->map(function ($requestTag) {
+                return $requestTag->text;
+            });
     }
 }

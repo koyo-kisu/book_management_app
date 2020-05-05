@@ -15,6 +15,13 @@
 <div class="md-form">
   <input type="file" class="form-control" name="book_image" value="{{ $book->book_image ?? old('book_image') }}">
 </div>
+<div class="form-group">
+  <article-tags-input
+    :initial-tags='@json($tagNames ?? [])'
+    :autocomplete-items='@json($allTagNames ?? [])'
+  >
+  </article-tags-input>
+</div>
 <div class="md-form">
   <input type="radio" name="state" class="form-control" value="1">貸出できます
   <input type="radio" name="state" class="form-control" value="2">貸出できません
