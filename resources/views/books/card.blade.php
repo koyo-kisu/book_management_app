@@ -85,9 +85,32 @@
       <div class="card-text">
         <div>{{ $book->author }}</div>
         <hr>
-        <span class="float-left mt-3">
-          <i class="fas fa-heart ml-1">10</i>
-        </span>
+
+        @foreach($book->tags as $tag)
+          <!-- 最初の1回だけ実行 -->
+          @if($loop->first)
+            <div class="card-body pt-0 pb-4 pl-3">
+              <div class="card-text line-height">
+          @endif
+                <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border mr-1 mt-1 text-muted">
+                  {{ $tag->hashtag }}
+                </a>
+          <!-- 最後の1回だけ実行 -->
+          @if($loop->last)
+              </div>
+            </div>
+          @endif
+        @endforeach
+
+        <div class="float-left mt-3">
+          <article-like
+            :initial-is-liked-by='@json($book->isLikedBy(Auth::user()))'
+            :initial-count-likes='@json($book->count_likes)'
+            :authorized='@json(Auth::check())'
+            endpoint="{{ route('books.like', ['book' => $book]) }}"
+          ></article-like>
+        </div>
+
         <span class="float-right mt-3">
           @if( $book->state === "1" )
             <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>

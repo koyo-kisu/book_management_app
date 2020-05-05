@@ -16,3 +16,11 @@ Route::get('/', 'BookController@index')->name('books.index');
 // リソースフルルートでルート定義
 Route::resource('/books', 'BookController')->except(['index', 'show'])->middleware('auth');
 Route::resource('/books', 'BookController')->only(['show']);
+
+// いいね機能
+Route::prefix('books')->name('books.')->group( function() {
+  Route::put('/{book}/like', 'BookController@like')->name('like')->middleware('auth');
+  Route::delete('/{book}/like', 'BookController@unlike')->name('unlike')->middleware('auth');
+});
+
+Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
