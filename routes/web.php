@@ -22,3 +22,5 @@ Route::prefix('books')->name('books.')->group( function() {
   Route::put('/{book}/like', 'BookController@like')->name('like')->middleware('auth');
   Route::delete('/{book}/like', 'BookController@unlike')->name('unlike')->middleware('auth');
 });
+
+Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
