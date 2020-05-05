@@ -85,6 +85,7 @@
       <div class="card-text">
         <div>{{ $book->author }}</div>
         <hr>
+
         @foreach($book->tags as $tag)
           <!-- 最初の1回だけ実行 -->
           @if($loop->first)
@@ -100,6 +101,7 @@
             </div>
           @endif
         @endforeach
+
         <div class="float-left mt-3">
           <article-like
             :initial-is-liked-by='@json($book->isLikedBy(Auth::user()))'
