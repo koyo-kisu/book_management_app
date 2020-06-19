@@ -1,17 +1,17 @@
 <!-- ここからCardColumn -->
 <div class="col-lg-4 col-md-12 mb-lg-0 mb-4">
-  
+
   <!-- ここからCard -->
   <div class="card card-cascade wider card-ecommerce mb-4">
 
     <!-- ここからCardImage -->
     <div class="view view-cascade overlay">
-      
+
       <!-- /public/storage配下に保存している画像を表示 -->
       @if(!empty($book->book_image))
       <div class="image-wrapper">
         <a href="{{ route('books.show', ['book' => $book]) }}">
-          <img src="{{ asset('storage/images' . $book->book_image ) }}" alt="image" class="card-img-top">
+          <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top">
         </a>
       </div>
       @else
@@ -126,3 +126,4 @@
   <!-- ここまでCard -->
 </div>
 <!-- ここまでCardColumn -->
+
