@@ -3,7 +3,7 @@
   <p>
     @if(!empty($book->book_image))
       <div class="image-wrapper">
-        <img src="{{ asset('storage/images' . $book->book_image ) }}" alt="image" class="card-img-top">        
+        <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top">
       </div>
     @else
       <div class='image-wrapper'>
@@ -22,7 +22,7 @@
 
     <h4 class="border-bottom">著者</h4>
     <div class="mb-5">{{ $book->author }}</div>
-    
+
     <h4 class="border-bottom">出版社</h4>
     <div class="mb-5">{{ $book->publisher }}</div>
 
@@ -34,10 +34,10 @@
         </a>
       @endforeach
     </div>
-    
+
     <h4 class="border-bottom">詳細</h4>
     <div class="detail_text mb-5 text-break">{{ $book->description }}</div>
-    
+
     <h4 class="border-bottom">貸出状況</h4>
     <div>
       @if( $book->state === "1" )

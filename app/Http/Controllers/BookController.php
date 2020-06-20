@@ -13,14 +13,14 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::all()->sortByDesc('created_at');
-        return view('books.index', [ 'books' => $books ]);
+        return view('books.index', ['books' => $books]);
     }
 
     // 本登録画面表示アクション
     public function create()
     {
         // tagテーブルの全データを取得
-        $allTagNames = Tag::all()->map(function($tag) {
+        $allTagNames = Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
 
@@ -37,12 +37,11 @@ class BookController extends Controller
         $book->publisher = $request->publisher;
         $book->description = $request->description;
         $book->state = $request->state;
-        if ($request->hasFile('book_image')->isValid()) {
+        if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
             // 画像名のみDB保存
-            $path = $request->file('book_image');
+            $path = $request->file('book_image')->store('public/images');
             $book->book_image = basename($path);
             // storage/app/publicにファイルを保存
-            $request->file('book_image')->store('public/images');
             $book->save();
         } else {
             return;
@@ -54,14 +53,14 @@ class BookController extends Controller
         });
 
         return redirect()
-                ->route('books.index')
-                ->with('file_name', basename($path));
+            ->route('books.index')
+            ->with('file_name', basename($path));
     }
 
     // 本情報更新画面表示アクション
     public function edit(Book $book)
     {
-        $tagNames = $book->tags->map(function($tag) {
+        $tagNames = $book->tags->map(function ($tag) {
             return ['text' => $tag->name];
         });
 
@@ -74,7 +73,7 @@ class BookController extends Controller
             'book' => $book,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
-        ]);    
+        ]);
     }
 
     // 本情報更新処理アクション
@@ -84,7 +83,7 @@ class BookController extends Controller
 
         // tagを一旦全て削除する
         $book->tags()->detach();
-        $request->tags->each(function($tagName) use ($book) {
+        $request->tags->each(function ($tagName) use ($book) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             // 改めてtagを追加する
             $book->tags()->attach($tag);
