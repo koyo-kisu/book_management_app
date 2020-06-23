@@ -2,12 +2,14 @@
 <div class="col-lg-4">
   <p>
     @if(!empty($book->book_image))
-      <div class="image-wrapper">
-        <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top">
+      <div class="image-wrapper h-500">
+        <a href="{{ asset('storage/images/' . $book->book_image ) }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top image-fit">
+        </a>
       </div>
     @else
-      <div class='image-wrapper'>
-        <img src="http://placehold.it/200x270" alt="ダミー画像">
+      <div class='image-wrapper h-500'>
+        <img src="http://placehold.it/200x270" alt="ダミー画像" class="card-img-top image-fit">
       </div>
     @endif
   </p>
