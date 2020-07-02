@@ -30,5 +30,6 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', 'UserController@index')->name('index');
     Route::get('/{name}', 'UserController@show')->name('show');
+    Route::delete('/{name}', 'UserController@destroy')->name('destroy');
     Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });

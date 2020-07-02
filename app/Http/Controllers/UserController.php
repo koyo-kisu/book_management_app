@@ -37,4 +37,12 @@ class UserController extends Controller
             'books' => $books,
         ]);
     }
+
+    // 削除処理アクション
+    public function destroy(String $name)
+    {
+        $user = User::where('name', $name)->first();
+        $user->delete();
+        return redirect()->route('users.index');
+    }
 }
