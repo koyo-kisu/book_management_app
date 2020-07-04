@@ -1,11 +1,17 @@
 @extends('app')
 
-@section('title', 'メイン画面')
+@section('title', 'ユーザー一覧')
 
 @section('content')
 @include('nav')
 <div class="container">
-  <div class="row mb-5 mt-3">
+
+  <!-- ページネーションの情報 -->
+  <div class="mt-3 text-right">
+    {{ $users->firstItem() }} - {{ $users->lastItem() }} / {{ $users->total() }}件
+  </div>
+
+  <div>
     <table class="table table-borderless">
       <thead>
         <tr>
@@ -16,6 +22,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- ユーザー一覧を表示 -->
         @foreach($users as $user)
         <tr class="border-bottom border-primary">
           <th scope="row" class="align-middle py-0">
@@ -26,10 +33,10 @@
           </td>
           <td class="align-middle py-0">{{ $user->email }}</td>
           <td class="align-middle py-0 text-right">
-            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modal-delete-{{ $user->name }}">削除</button>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modal-delete-{{ $user->id }}">削除</button>
 
             <!-- 削除モーダル -->
-            @component('components.dialog', ['id' => 'modal-delete-'.$user->name])
+            @component('components.dialog', ['id' => 'modal-delete-'.$user->id])
               <form method="POST" action="{{ route('users.destroy', ['name' => $user->name]) }}">
                 @csrf
                 <!-- methodフィールド：postメソッドではなくdeleteメソッドとして解釈 -->
@@ -47,7 +54,13 @@
         </tr>
         @endforeach
       </tbody>
+
     </table>
+
+    <!-- ページネーション -->
+    <div>
+      {{ $users->links() }}
+    </div>
   </div>
 </div>
 @endsection
