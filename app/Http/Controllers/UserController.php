@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all()->sortByDesc('created_at');
+        $users = User::paginate()->sortByDesc('created_at');
 
         return view('users.index', ['users' => $users]);
     }
