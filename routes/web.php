@@ -31,3 +31,16 @@ Route::prefix('users')->name('users.')->group(function () {
   Route::get('/{name}', 'UserController@show')->name('show');
   Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });
+
+// 管理側ルート定義
+// ルーティングの頭をprefixで定義
+Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
+
+  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.layout.login');
+  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.layout.login');
+
+});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
+  Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+});
