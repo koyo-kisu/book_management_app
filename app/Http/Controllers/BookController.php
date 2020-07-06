@@ -10,10 +10,20 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     // メイン画面アクション
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::all()->sortByDesc('created_at');
-        return view('books.index', ['books' => $books]);
+        if($request->get('title')) {
+            $books = Book::searched($request->get('title'));
+            $query = $request->get('title');
+        } else {
+            $books = Book::query();
+            $query = '';
+        }
+        $books = $books->orderBy('created_at', 'DESC')->get();
+        return view('books.index', [
+            'books' => $books,
+            'query' => $query
+        ]);
     }
 
     // 本登録画面表示アクション
