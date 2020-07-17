@@ -41,12 +41,13 @@ Route::middleware(['middleware' => 'auth:admin'])->group(function(){
     Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
     });
+});
 
-    // ユーザーページ
-    Route::prefix('users')->name('users.')->group(function () {
-        Route::get('/{name}', 'UserController@show')->name('show');
-        Route::get('/{name}/likes', 'UserController@likes')->name('likes');
-        Route::delete('/{name}', 'UserController@destroy')->name('destroy');
-        Route::get('/{name}/likes', 'UserController@likes')->name('likes');
-    });
+// ユーザーページ
+Route::prefix('users')->name('users.')->group(function () {
+    Route::get('/', 'UserController@index')->name('index');
+    Route::get('/{name}', 'UserController@show')->name('show');
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
+    Route::delete('/{name}', 'UserController@destroy')->name('destroy');
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });
