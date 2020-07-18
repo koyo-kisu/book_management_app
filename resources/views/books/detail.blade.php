@@ -43,7 +43,7 @@
     <h4 class="border-bottom">貸出状況</h4>
     <div>
       @if( $book->state === "1" )
-        <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
+        <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" data-toggle="modal" data-target="#modal-booking-{{ $book->id }}">予約する</button>
       @else
         <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
       @endif

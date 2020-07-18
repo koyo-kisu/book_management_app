@@ -49,18 +49,20 @@
 
     <!-- ここからmodal -->
     @component('components.dialog', ['id' => 'modal-delete-'.$book->id])
-        <form method="POST" action="{{ route('books.destroy', ['book' => $book]) }}">
-            @csrf
-            <!-- methodフィールド：postメソッドではなくdeleteメソッドとして解釈 -->
-            @method('DELETE')
-            <div class="modal-body">
-            {{ $book->title }}を削除します。よろしいですか？
-            </div>
-            <div class="modal-footer justify-content-between">
-            <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
-            <button type="submit" class="btn btn-danger">削除する</button>
-            </div>
-        </form>
+    @slot('body')
+    <form method="POST" action="{{ route('books.destroy', ['book' => $book]) }}">
+      @csrf
+      <!-- methodフィールド：postメソッドではなくdeleteメソッドとして解釈 -->
+      @method('DELETE')
+      <div class="modal-body">
+        {{ $book->title }}を削除します。よろしいですか？
+      </div>
+      <div class="modal-footer justify-content-between">
+        <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
+        <button type="submit" class="btn btn-danger">削除する</button>
+      </div>
+    </form>
+    @endslot
     @endcomponent
     <!-- ここまでmodal -->
 
@@ -78,35 +80,32 @@
         <hr>
 
         @foreach($book->tags as $tag)
-          <!-- 最初の1回だけ実行 -->
-          @if($loop->first)
-            <div class="card-body pt-0 pb-4 pl-3">
-              <div class="card-text line-height">
-          @endif
-                <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border mr-1 mt-1 text-muted">
-                  {{ $tag->hashtag }}
-                </a>
-          <!-- 最後の1回だけ実行 -->
-          @if($loop->last)
-              </div>
-            </div>
-          @endif
+        <!-- 最初の1回だけ実行 -->
+        @if($loop->first)
+        <div class="card-body pt-0 pb-4 pl-3">
+          <div class="card-text line-height">
+            @endif
+            <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border mr-1 mt-1 text-muted">
+              {{ $tag->hashtag }}
+            </a>
+            <!-- 最後の1回だけ実行 -->
+            @if($loop->last)
+          </div>
+        </div>
+        @endif
         @endforeach
 
         <div class="float-left mt-3">
-          <article-like
-            :initial-is-liked-by='@json($book->isLikedBy(Auth::user()))'
-            :initial-count-likes='@json($book->count_likes)'
-            :authorized='@json(Auth::check())'
-            endpoint="{{ route('books.like', ['book' => $book]) }}"
-          ></article-like>
+          <article-like :initial-is-liked-by='@json($book->isLikedBy(Auth::user()))'
+            :initial-count-likes='@json($book->count_likes)' :authorized='@json(Auth::check())'
+            endpoint="{{ route('books.like', ['book' => $book]) }}"></article-like>
         </div>
 
         <span class="float-right mt-3">
           @if( $book->state === "1" )
-            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
+          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
           @else
-            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
+          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
           @endif
         </span>
       </div>
@@ -117,4 +116,3 @@
   <!-- ここまでCard -->
 </div>
 <!-- ここまでCardColumn -->
-
