@@ -14,14 +14,14 @@
     <a class="nav-link" href="{{ route('login') }}">ログイン</a>
     </li>
     @endguest
-      
+
     <!-- ログイン済みユーザー用 -->
     @auth
     <li class="nav-item">
       <a class="nav-link" href="{{ route('books.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
     </li>
     @endauth
-    
+
     <!-- ログイン済みユーザー用 -->
     @auth
     <!-- ここからDropdown -->

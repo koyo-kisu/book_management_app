@@ -9,15 +9,15 @@
 
       <!-- /public/storage配下に保存している画像を表示 -->
       @if(!empty($book->book_image))
-      <div class="image-wrapper">
+      <div class="image-wrapper h-400">
         <a href="{{ route('books.show', ['book' => $book]) }}">
-          <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top">
+          <img src="{{ asset('storage/images/' . $book->book_image ) }}" alt="image" class="card-img-top image-fit">
         </a>
       </div>
       @else
-      <div class='image-wrapper'>
+      <div class='image-wrapper h-400'>
         <a href="{{ route('books.show', ['book' => $book]) }}">
-          <img src="http://placehold.it/289.98x200" alt="ダミー画像">
+          <img src="http://placehold.it/289.98x200" alt="ダミー画像" class="card-img-top image-fit">
         </a>
       </div>
       @endif
@@ -48,29 +48,20 @@
     <!-- ここまでdropdown -->
 
     <!-- ここからmodal -->
-    <div id="modal-delete-{{ $book->id }}" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <form method="POST" action="{{ route('books.destroy', ['book' => $book]) }}">
+    @component('components.dialog', ['id' => 'modal-delete-'.$book->id])
+        <form method="POST" action="{{ route('books.destroy', ['book' => $book]) }}">
             @csrf
             <!-- methodフィールド：postメソッドではなくdeleteメソッドとして解釈 -->
             @method('DELETE')
             <div class="modal-body">
-              {{ $book->title }}を削除します。よろしいですか？
+            {{ $book->title }}を削除します。よろしいですか？
             </div>
             <div class="modal-footer justify-content-between">
-              <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
-              <button type="submit" class="btn btn-danger">削除する</button>
+            <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
+            <button type="submit" class="btn btn-danger">削除する</button>
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
+        </form>
+    @endcomponent
     <!-- ここまでmodal -->
 
     <!-- ここからCardContent -->

@@ -18,19 +18,13 @@ Route::resource('/books', 'BookController')->except(['index', 'show'])->middlewa
 Route::resource('/books', 'BookController')->only(['show']);
 
 // いいね機能
-Route::prefix('books')->name('books.')->group( function() {
-  Route::put('/{book}/like', 'BookController@like')->name('like')->middleware('auth');
-  Route::delete('/{book}/like', 'BookController@unlike')->name('unlike')->middleware('auth');
+Route::prefix('books')->name('books.')->group(function () {
+    Route::put('/{book}/like', 'BookController@like')->name('like')->middleware('auth');
+    Route::delete('/{book}/like', 'BookController@unlike')->name('unlike')->middleware('auth');
 });
 
 // タグつけ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
-
-// ユーザーページ
-Route::prefix('users')->name('users.')->group(function () {
-  Route::get('/{name}', 'UserController@show')->name('show');
-  Route::get('/{name}/likes', 'UserController@likes')->name('likes');
-});
 
 // 管理側ルート定義
 // ルーティングの頭をprefixで定義
@@ -41,6 +35,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
 
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
-  Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+// 管理者権限ルート
+Route::middleware(['middleware' => 'auth:admin'])->group(function(){
+    // ログアウト
+    Route::prefix('admin')->name('admin.')->group(function(){
+        Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+    });
+});
+
+// ユーザーページ
+Route::prefix('users')->name('users.')->group(function () {
+    Route::get('/', 'UserController@index')->name('index');
+    Route::get('/{name}', 'UserController@show')->name('show');
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
+    Route::delete('/{name}', 'UserController@destroy')->name('destroy');
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });
