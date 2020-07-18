@@ -26,6 +26,11 @@ Route::prefix('books')->name('books.')->group(function () {
 // タグつけ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
+// 予約申請ルート定義
+Route::prefix('bookings')->name('bookings.')->group(function () {
+    Route::put('/{book}/like', 'BookController@store')->name('store')->middleware('auth');
+});
+
 // 管理側ルート定義
 // ルーティングの頭をprefixで定義
 Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
