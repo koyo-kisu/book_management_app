@@ -26,12 +26,12 @@ use AuthenticatesUsers;
  *
  * @var string
  */
-protected $redirectTo = '/admin/layout/index';
+protected $redirectTo = '/admin/index';
 
 // 管理者ログイン画面
 public function showLoginForm()
 {
-    return view('admin.layout.login');
+    return view('admin.login');
 }
 
 protected function guard()

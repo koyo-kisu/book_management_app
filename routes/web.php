@@ -36,8 +36,8 @@ Route::prefix('users')->name('users.')->group(function () {
 // ルーティングの頭をprefixで定義
 Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
 
-  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.layout.login');
-  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.layout.login');
+  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
+  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login');
 
 });
 

@@ -13,7 +13,7 @@
             @include('error_card_list')
             
             <div class="card-text">
-              <form method="POST" action="{{ route('login') }}">
+              <form method="POST" action="{{ route('admin.login') }}">
                 @csrf
 
                 <div class="md-form">
@@ -30,10 +30,10 @@
 
                 <button class="btn btn-block red-gradient mt-2 mb-2" type="submit">ログイン</button>
 
-                <div>
-                  <a href="{{ route('login') }}" class="card-text">ユーザーログインはこちら</a>
-                </div>
               </form>
+              <div>
+                <a href="{{ route('login') }}" class="card-text">ユーザーログインはこちら</a>
+              </div>
 
             </div>
           </div>
