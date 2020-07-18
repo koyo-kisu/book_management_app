@@ -6,12 +6,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Booking extends Pivot
 {
-    protected $fillable = [
-        'title',
-        'author',
-        'publisher',
-        'description',
-        'book_image',
-        'state'
-    ];
+    protected $table = 'bookings';
+
+    protected $guarded = [];
 }
