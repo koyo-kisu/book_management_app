@@ -35,6 +35,24 @@ class Book extends Model
             : false;
     }
 
+    // 書籍名でのあいまい検索メソッド
+    public static function searched(string $words = '')
+    {
+        $book = new Book;
+
+        // 文字列を空白で分割し配列化
+        $search_words = preg_split("/\s+/u", $words);
+
+        // 各文字列であいまい検索
+        $book = $book->where(function ($query) use ($search_words) {
+            foreach ($search_words as $word) {
+                $query->where('title', 'LIKE', '%'.$word.'%');
+            }
+        });
+
+        return $book;
+    }
+
     // 記事にいいねをしたユーザーの総数、つまりいいねの合計が求まります
     public function getCountLikesAttribute(): int
     {

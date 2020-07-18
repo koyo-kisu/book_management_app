@@ -26,10 +26,28 @@ Route::prefix('books')->name('books.')->group(function () {
 // タグつけ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
+// 管理側ルート定義
+// ルーティングの頭をprefixで定義
+Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
+
+  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.layout.login');
+  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.layout.login');
+
+});
+
+// 管理者権限ルート
+Route::middleware(['middleware' => 'auth:admin'])->group(function(){
+    // ログアウト
+    Route::prefix('admin')->name('admin.')->group(function(){
+        Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+    });
+});
+
 // ユーザーページ
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', 'UserController@index')->name('index');
     Route::get('/{name}', 'UserController@show')->name('show');
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
     Route::delete('/{name}', 'UserController@destroy')->name('destroy');
     Route::get('/{name}/likes', 'UserController@likes')->name('likes');
 });
