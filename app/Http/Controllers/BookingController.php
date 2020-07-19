@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Booking;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -24,7 +25,12 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // 不正にデータ送信できないよう、ログイン情報からユーザーid取得
+        $user_id = \Auth::id();
+        $request->merge(['user_id' => $user_id]);
+        Booking::create($request->all());
+
+        return redirect()->back();
     }
 
     /**
