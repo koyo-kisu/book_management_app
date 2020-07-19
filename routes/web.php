@@ -28,7 +28,7 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 // 予約申請ルート定義
 Route::prefix('bookings')->name('bookings.')->group(function () {
-    Route::put('/{book}/like', 'BookController@store')->name('store')->middleware('auth');
+    Route::post('/', 'BookingController@store')->name('store');
 });
 
 // 管理側ルート定義
