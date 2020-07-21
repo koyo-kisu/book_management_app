@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use App\Http\Requests\BookingRequest;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -23,7 +24,7 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
         // 不正にデータ送信できないよう、ログイン情報からユーザーid取得
         $user_id = \Auth::id();
