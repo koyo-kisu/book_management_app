@@ -19,6 +19,7 @@
       endpoint="{{ route('bookings.store') }}"
       token="{{ csrf_token() }}"
       book-id="{{ $book->id }}"
+      :bookings='@json($bookings ?? [])'
     />
   @endslot
   @endcomponent
