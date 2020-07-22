@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Http\Requests\BookingRequest;
+use App\Mail\BookingMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -30,6 +32,12 @@ class BookingController extends Controller
         $user_id = \Auth::id();
         $request->merge(['user_id' => $user_id]);
         Booking::create($request->all());
+
+        try {
+            Mail::send(new BookingMail);
+        } catch (\Exception $e) {
+            dd($e->getTraceAsString());
+        }
 
         return redirect()->back();
     }

@@ -25,7 +25,7 @@ class BookingRequest extends FormRequest
     {
         return [
             'start_on' => ['required', 'date_format:Y-m-d'],
-            'end_on' => ['required', 'date_format:Y-m-d', 'after:start_on'],
+            'end_on' => ['required', 'date_format:Y-m-d', 'after_or_equal:start_on'],
         ];
     }
 
