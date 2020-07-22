@@ -77,13 +77,20 @@ export default {
   },
   data() {
     return {
-      startOn: null,
+      startOn_: null,
       endOn: null,
       lastBookingEnd: null,
       disabledDates: [],
     }
   },
   computed: {
+    startOn: {
+      get() { return this.startOn_ },
+      set(value) {
+        this.startOn_ = value
+        this.endOn = value // 返却日も自動で更新しデータ不整合予防
+      },
+    },
     today() {
       return moment(new Date()).format("YYYY-MM-DD")
     },
