@@ -1,29 +1,37 @@
 <nav class="navbar navbar-expand">
-  <a href="/">BOOKSHELF-APP</a>
+  <!-- 未ログインユーザー用 -->
+  @guest
+    <a href="/">BOOKSHELF-APP</a>
+  @endguest
+
+  <!-- ログイン済みユーザー用 -->
+  @auth('user')
+    <a href="/">BOOKSHELF-APP</a>
+  @endauth
+
+  <!-- ログイン済み管理者用 -->
+  @auth('admin')
+    <a href="{{ route('admin.index') }}">BOOKSHELF-APP</a>
+  @endauth
+
   <ul class="navbar-nav ml-auto">
     <!-- 未ログインユーザー用 -->
     @guest
     <li class="nav-item">
       <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
     </li>
-    @endguest
-
-    <!-- 未ログインユーザー用 -->
-    @guest
     <li class="nav-item">
-    <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+      <a class="nav-link" href="{{ route('login') }}">ログイン</a>
     </li>
     @endguest
 
-    <!-- ログイン済みユーザー用 -->
-    @auth
+    @auth('admin')
     <li class="nav-item">
       <a class="nav-link" href="{{ route('books.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
     </li>
     @endauth
-
     <!-- ログイン済みユーザー用 -->
-    @auth
+    @auth('user')
     <!-- ここからDropdown -->
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -46,5 +54,16 @@
     </form>
     <!-- ここまでDropdown -->
     @endauth
+
+   <!-- ログイン済み管理者用 -->
+    @auth('admin')
+    <li class="content_list mb-2 mt-2">
+      <form id="logout-button" method="POST" action="{{ route('admin.logout') }}">
+        <button form="logout-button" type="submit">ログアウト</button>
+        @csrf
+      </form>
+    </li>
+    @endauth
+
   </ul>
 </nav>
