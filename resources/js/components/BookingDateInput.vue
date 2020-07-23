@@ -4,10 +4,10 @@
     <input type="hidden" name="book_id" :value="bookId" />
     <div class="modal-body mx-3">
       <div class="form-group">
-        <label for="start_on_picker-input">貸出日</label>
+        <label for="booking_date_from_picker-input">貸出日</label>
         <VueCtkDateTimePicker
-          id="start_on_picker"
-          v-model="startOn"
+          id="booking_date_from_picker"
+          v-model="dateFrom"
           format="YYYY-MM-DD"
           formatted="YYYY-MM-DD(ddd)"
           label="日付を選択してください"
@@ -20,27 +20,27 @@
           only-date
           auto-close
         ></VueCtkDateTimePicker>
-        <input type="hidden" name="start_on" :value="startOn" />
+        <input type="hidden" name="booking_date_from" :value="dateFrom" />
       </div>
       <div class="form-group">
-        <label for="end_on_picker-input">返却日</label>
+        <label for="booking_date_to_picker-input">返却日</label>
         <VueCtkDateTimePicker
-          id="end_on_picker"
-          v-model="endOn"
+          id="booking_date_to_picker"
+          v-model="dateTo"
           format="YYYY-MM-DD"
           formatted="YYYY-MM-DD(ddd)"
           label="日付を選択してください"
           color="#007bff"
           button-color="#28a745"
-          :min-date="startOn || today"
-          :max-date="endOnMaxDate"
+          :min-date="dateFrom || today"
+          :max-date="dateToMaxDate"
           :disabled-dates="disabledDates"
           no-label
           no-shortcuts
           only-date
           auto-close
         ></VueCtkDateTimePicker>
-        <input type="hidden" name="end_on" :value="endOn" />
+        <input type="hidden" name="booking_date_to" :value="dateTo" />
       </div>
     </div>
     <div class="modal-footer justify-content-between">
@@ -77,28 +77,28 @@ export default {
   },
   data() {
     return {
-      startOn_: null,
-      endOn: null,
+      dateFrom_: null,
+      dateTo: null,
       lastBookingEnd: null,
       disabledDates: [],
     }
   },
   computed: {
-    startOn: {
-      get() { return this.startOn_ },
+    dateFrom: {
+      get() { return this.dateFrom_ },
       set(value) {
-        this.startOn_ = value
-        this.endOn = value // 返却日も自動で更新しデータ不整合予防
+        this.dateFrom_ = value
+        this.dateTo = value // 返却日も自動で更新しデータ不整合予防
       },
     },
     today() {
       return moment(new Date()).format("YYYY-MM-DD")
     },
     // 既存の予約をまたいでの予約を制限する
-    endOnMaxDate() {
+    dateToMaxDate() {
       if(!this.bookings.length) return ''
-      if(this.startOn)
-        return this.mostRecentStart(this.startOn)
+      if(this.dateFrom)
+        return this.mostRecentStart(this.dateFrom)
     },
   },
   methods: {
@@ -109,12 +109,12 @@ export default {
         this.setDisabledDates(booking)
         // 一番先の返却日を保存
         if(this.bookings.length - 1 === i)
-          this.lastBookingEnd = booking.end_on
+          this.lastBookingEnd = booking.booking_date_to
       }
     },
     // 貸出中の日付を選択不可にする
     setDisabledDates(booking) {
-      const bookingDates = this.listBookingDates(booking.start_on, booking.end_on)
+      const bookingDates = this.listBookingDates(booking.booking_date_from, booking.booking_date_to)
       this.disabledDates = this.disabledDates.concat(bookingDates)
     },
     // 2つの日付間の日付をリストアップする
@@ -132,17 +132,16 @@ export default {
     mostRecentStart(date) {
       let diff = 0, recent = ''
       this.bookings.map(booking => {
-        const _diff = this.momentDiff(date, booking.start_on)
+        const _diff = this.momentDiff(date, booking.booking_date_from)
         if(_diff > diff) {
           diff = _diff
-          recent = booking.start_on
+          recent = booking.booking_date_from
         }
       })
       return recent
     },
     momentDiff(st, ed) {
       const start = moment(st), end = moment(ed)
-      console.log(start, end)
       return end.diff(start, 'days')
     }
   },

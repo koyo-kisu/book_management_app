@@ -29,14 +29,15 @@ class BookingController extends Controller
     public function store(BookingRequest $request)
     {
         // 不正にデータ送信できないよう、ログイン情報からユーザーid取得
-        $user_id = \Auth::id();
-        $request->merge(['user_id' => $user_id]);
-        Booking::create($request->all());
+        $user = \Auth::user();
+        $request->merge(['user_id' => $user->id]);
+        $booking = Booking::create($request->all());
+        dd($booking);
 
         try {
-            Mail::send(new BookingMail);
+            Mail::send(new BookingMail());
         } catch (\Exception $e) {
-            dd($e->getTraceAsString());
+            // dd($e->getTraceAsString());
         }
 
         return redirect()->back();

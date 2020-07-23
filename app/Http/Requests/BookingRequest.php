@@ -24,16 +24,16 @@ class BookingRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_on' => ['required', 'date_format:Y-m-d'],
-            'end_on' => ['required', 'date_format:Y-m-d', 'after_or_equal:start_on'],
+            'booking_date_from' => ['required', 'date_format:Y-m-d'],
+            'booking_date_to' => ['required', 'date_format:Y-m-d', 'after_or_equal:booking_date_from'],
         ];
     }
 
     public function attributes()
     {
         return [
-            'start_on' => '貸出日',
-            'end_on' => '返却日',
+            'booking_date_from' => '貸出日',
+            'booking_date_to' => '返却日',
         ];
     }
 }

@@ -15,12 +15,12 @@ $factory->define(Booking::class, function (Faker $faker) {
 
         $exists = App\Booking::where('book_id', '=', $book_id)
             ->where(function ($query) use ($date) {
-                $query->where('start_on', '<=', $date->format('Y-m-d'))
-                    ->where('end_on', '>=', $date->format('Y-m-d'));
+                $query->where('booking_date_from', '<=', $date->format('Y-m-d'))
+                    ->where('booking_date_to', '>=', $date->format('Y-m-d'));
             })
             ->orWhere(function ($query) use ($date) {
-                $query->where('start_on', '<=', $date->modify('+3day')->format('Y-m-d'))
-                    ->where('end_on', '>=', $date->format('Y-m-d'));
+                $query->where('booking_date_from', '<=', $date->modify('+3day')->format('Y-m-d'))
+                    ->where('booking_date_to', '>=', $date->format('Y-m-d'));
             })
             ->exists();
 
@@ -28,8 +28,8 @@ $factory->define(Booking::class, function (Faker $faker) {
         return [
             'user_id' => App\User::inRandomOrder()->first()->id,
             'book_id' => $book_id,
-            'start_on'=> $date->modify('-3day')->format('Y-m-d'),
-            'end_on'=> $date->modify('+3day')->format('Y-m-d'),
+            'booking_date_from'=> $date->modify('-3day')->format('Y-m-d'),
+            'booking_date_to'=> $date->modify('+3day')->format('Y-m-d'),
         ];
     }
 });

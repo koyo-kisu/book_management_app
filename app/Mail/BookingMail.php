@@ -31,6 +31,6 @@ class BookingMail extends Mailable
     public function build()
     {
         $to = array_column($this->_admins, 'email');
-        return $this->to($to)->view('mail.booking');
+        return $this->subject('【予約申請】')->to($to)->view('mail.booking');
     }
 }

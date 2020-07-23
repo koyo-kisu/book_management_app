@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function bookings(): BelongsToMany
     {
-        return $this->belongsToMany('App\Book', 'bookings')->withPivot('start_on', 'end_on');
+        return $this->belongsToMany('App\Book', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
     }
 }
