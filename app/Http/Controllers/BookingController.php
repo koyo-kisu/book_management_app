@@ -32,10 +32,9 @@ class BookingController extends Controller
         $user = \Auth::user();
         $request->merge(['user_id' => $user->id]);
         $booking = Booking::create($request->all());
-        dd($booking);
 
         try {
-            Mail::send(new BookingMail());
+            Mail::send(new BookingMail($booking));
         } catch (\Exception $e) {
             // dd($e->getTraceAsString());
         }
