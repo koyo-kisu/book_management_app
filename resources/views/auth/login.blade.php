@@ -37,7 +37,7 @@
               </div>
 
               <div>
-                <a href="{{ route('admin.layout.login') }}" class="card-text">管理者ログインはこちら</a>
+                <a href="{{ route('admin.login') }}" class="card-text">管理者ログインはこちら</a>
               </div>
 
             </div>

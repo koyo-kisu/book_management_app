@@ -27,20 +27,16 @@ Route::prefix('books')->name('books.')->group(function () {
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 // 管理側ルート定義
-// ルーティングの頭をprefixで定義
 Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
-
-  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.layout.login');
-  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.layout.login');
-
+  Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
+  Route::post('login', 'Admin\Auth\LoginController@login')->name('admin.login');
 });
 
-// 管理者権限ルート
-Route::middleware(['middleware' => 'auth:admin'])->group(function(){
-    // ログアウト
-    Route::prefix('admin')->name('admin.')->group(function(){
-        Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
-    });
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function(){
+  Route::post('logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');
+  Route::get('index', 'Admin\IndexController@index')->name('admin.index');
+  Route::get('apply', 'Admin\IndexController@apply')->name('admin.apply');
+  Route::get('user', 'Admin\IndexController@user')->name('admin.user');
 });
 
 // ユーザーページ
