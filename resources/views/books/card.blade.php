@@ -49,6 +49,7 @@
 
       <!-- ここからmodal -->
       @component('components.dialog', ['id' => 'modal-delete-'.$book->id])
+        @slot('body')
           <form method="POST" action="{{ route('books.destroy', ['book' => $book]) }}">
               @csrf
               <!-- methodフィールド：postメソッドではなくdeleteメソッドとして解釈 -->
@@ -61,6 +62,7 @@
               <button type="submit" class="btn btn-danger">削除する</button>
               </div>
           </form>
+        @endslot
       @endcomponent
       <!-- ここまでmodal -->
     @endauth
@@ -78,19 +80,19 @@
         <div>{{ $book->author }}</div>
         <hr>
         @foreach($book->tags as $tag)
-          <!-- 最初の1回だけ実行 -->
-          @if($loop->first)
-            <div class="card-body pt-0 pb-4 pl-3">
-              <div class="card-text line-height">
-          @endif
-                <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border mr-1 mt-1 text-muted">
-                  {{ $tag->hashtag }}
-                </a>
-          <!-- 最後の1回だけ実行 -->
-          @if($loop->last)
-              </div>
-            </div>
-          @endif
+        <!-- 最初の1回だけ実行 -->
+        @if($loop->first)
+        <div class="card-body pt-0 pb-4 pl-3">
+          <div class="card-text line-height">
+            @endif
+            <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border mr-1 mt-1 text-muted">
+              {{ $tag->hashtag }}
+            </a>
+            <!-- 最後の1回だけ実行 -->
+            @if($loop->last)
+          </div>
+        </div>
+        @endif
         @endforeach
 
         @auth('user')
@@ -106,9 +108,9 @@
 
         <span class="float-right mt-3">
           @if( $book->state === "1" )
-            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
+          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
           @else
-            <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
+          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
           @endif
         </span>
       </div>
@@ -119,4 +121,3 @@
   <!-- ここまでCard -->
 </div>
 <!-- ここまでCardColumn -->
-

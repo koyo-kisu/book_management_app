@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Book', 'likes')->withTimestamps();
     }
+
+    public function bookings(): BelongsToMany
+    {
+        return $this->belongsToMany('App\Book', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
+    }
 }

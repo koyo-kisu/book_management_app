@@ -26,6 +26,11 @@ Route::prefix('books')->name('books.')->group(function () {
 // タグつけ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
+// 予約申請ルート定義
+Route::prefix('bookings')->name('bookings.')->group(function () {
+    Route::post('/', 'BookingController@store')->name('store');
+});
+
 // 管理側ルート定義
 Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function() {
   Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');

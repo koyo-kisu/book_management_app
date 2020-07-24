@@ -27,6 +27,11 @@ class Book extends Model
         return $this->belongsToMany('App\User', 'likes')->withTimestamps();
     }
 
+    public function bookings(): BelongsToMany
+    {
+        return $this->belongsToMany('App\User', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
+    }
+
     // ユーザーがこの記事をいいね済みかどうかを返すメソッド
     public function isLikedBy(?User $user): bool
     {
