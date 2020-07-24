@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Mail;
 class BookingController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -28,7 +18,6 @@ class BookingController extends Controller
      */
     public function store(BookingRequest $request)
     {
-        // 不正にデータ送信できないよう、ログイン情報からユーザーid取得
         $user = \Auth::user();
         $request->merge(['user_id' => $user->id]);
         $booking = Booking::create($request->all());
@@ -36,54 +25,10 @@ class BookingController extends Controller
         try {
             Mail::send(new BookingMail($booking));
         } catch (\Exception $e) {
-            // dd($e->getTraceAsString());
+            logger()->info($e->getMessage());
+            logger()->info($e->getTraceAsString());
         }
 
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
