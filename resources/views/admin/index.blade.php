@@ -21,9 +21,3 @@
     </div>
   </div>
 @endsection
-
-<style>
-.content_list {
-  list-style: none;
-}
-</style>
