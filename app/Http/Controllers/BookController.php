@@ -63,7 +63,7 @@ class BookController extends Controller
         });
 
         return redirect()
-            ->route('books.index')
+            ->route('index')
             ->with('file_name', basename($path));
     }
 
