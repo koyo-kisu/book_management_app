@@ -29,6 +29,6 @@ class BookingController extends Controller
             logger()->info($e->getTraceAsString());
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('flash_success', '予約申請しました。');
     }
 }

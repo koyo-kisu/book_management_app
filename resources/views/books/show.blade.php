@@ -3,6 +3,8 @@
 @section('title', '詳細画面')
 
 @section('content')
+@include('error_card_list')
+
 <div class="container">
   <div class="row mb-5 mt-3">
     @include('books.detail')
