@@ -14,8 +14,8 @@ class RenameStartOnEndOnBookingsTable extends Migration
     public function up()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->renameColumn('booking_date_from', 'booking_date_from');
-            $table->renameColumn('booking_date_to', 'booking_date_to');
+            $table->renameColumn('start_on', 'booking_date_from');
+            $table->renameColumn('end_on', 'booking_date_to');
         });
     }
 
@@ -27,8 +27,8 @@ class RenameStartOnEndOnBookingsTable extends Migration
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->renameColumn('booking_date_from', 'booking_date_from');
-            $table->renameColumn('booking_date_to', 'booking_date_to');
+            $table->renameColumn('booking_date_from', 'start_on');
+            $table->renameColumn('booking_date_to', 'end_on');
         });
     }
 }

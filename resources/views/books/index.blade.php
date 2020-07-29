@@ -4,6 +4,16 @@
 
 @section('content')
   <div class="container">
+    <div class="mt-4">
+      <!-- ログイン済み管理者用 -->
+      @auth('admin')
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('books.index') }}">貸出書籍</a></li>
+          <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('users.index') }}">ユーザー</a></li>
+          <li class="list-group-item list-group-item-action text-center col-4"><a href="#">申請状況</a></li>
+        </ul>
+      @endauth
+    </div>
     <div class="row mb-5 mt-3">
       <div class="col-12 col-md-6 offset-md-6">
         <form action="{{ route('books.index') }}" method="GET">
