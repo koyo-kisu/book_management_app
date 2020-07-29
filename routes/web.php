@@ -34,7 +34,7 @@ Route::prefix('bookings')->name('bookings.')->group(function () {
 
 // ユーザーページ
 Route::prefix('users')->name('users.')->group(function () {
-    Route::get('/', 'UserController@index')->name('index');
+    Route::get('/', 'UserController@index')->name('index')->middleware('auth:admin');
     Route::get('/{name}', 'UserController@show')->name('show');
     Route::get('/{name}/likes', 'UserController@likes')->name('likes');
     Route::delete('/{name}', 'UserController@destroy')->name('destroy');
@@ -53,9 +53,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
   Route::post('logout', 'Admin\Auth\LoginController@logout')->name('logout')->middleware('auth:admin');
   // Route::post('create', 'Admin\Auth\LoginController@create')->name('create')->middleware('auth:admin');
 });
-
-// ユーザー一覧
-Route::get('users', 'UserController@index')->name('users.index')->middleware('auth:admin');
-
-// 書籍一覧
-Route::get('/', 'BookController@index')->name('books.index')->middleware('auth:admin');
