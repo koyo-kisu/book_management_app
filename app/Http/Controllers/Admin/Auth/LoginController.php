@@ -26,7 +26,7 @@ use AuthenticatesUsers;
  *
  * @var string
  */
-protected $redirectTo = '/admin/index';
+protected $redirectTo = '/';
 
 public function __construct()
 {
