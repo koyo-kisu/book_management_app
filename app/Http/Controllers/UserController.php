@@ -43,6 +43,6 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
         $user->delete();
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('flash_success', '削除しました。');
     }
 }

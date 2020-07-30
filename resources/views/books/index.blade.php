@@ -3,7 +3,6 @@
 @section('title', 'メイン画面')
 
 @section('content')
-  @include('nav')
   <div class="container">
     <div class="mt-4">
       <!-- ログイン済み管理者用 -->

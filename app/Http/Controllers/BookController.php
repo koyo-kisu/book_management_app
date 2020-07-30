@@ -12,7 +12,7 @@ class BookController extends Controller
     // メイン画面アクション
     public function index(Request $request)
     {
-        if($request->get('title')) {
+        if ($request->get('title')) {
             $books = Book::searched($request->get('title'));
             $query = $request->get('title');
         } else {
@@ -48,23 +48,19 @@ class BookController extends Controller
         $book->description = $request->description;
         $book->state = $request->state;
         if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
-            // 画像名のみDB保存
-            $path = $request->file('book_image')->store('public/images');
-            $book->book_image = basename($path);
             // storage/app/publicにファイルを保存
-            $book->save();
-        } else {
-            return;
+            $path = $request->file('book_image')->store('public/images');
+            // 画像名DB保存
+            $book->book_image = basename($path);
         }
+        $book->save();
 
         $request->tags->each(function ($tagName) use ($book) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $book->tags()->attach($tag);
         });
 
-        return redirect()
-            ->route('books.index')
-            ->with('file_name', basename($path));
+        return redirect()->route('books.index')->with('flash_success', '登録しました。');
     }
 
     // 本情報更新画面表示アクション
@@ -99,7 +95,7 @@ class BookController extends Controller
             $book->tags()->attach($tag);
         });
 
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('flash_success', '更新しました。');
     }
 
     // 詳細画面表示アクション
@@ -116,7 +112,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('flash_success', '削除しました。');
     }
 
     // いいねアクション

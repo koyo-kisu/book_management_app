@@ -3,7 +3,6 @@
 @section('title', 'ユーザー一覧')
 
 @section('content')
-@include('nav')
 <div class="container">
 
   <!-- ページネーションの情報 -->
