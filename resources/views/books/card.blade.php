@@ -107,11 +107,7 @@
         @endauth
 
         <span class="float-right mt-3">
-          @if( $book->state === "1" )
           <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
-          @else
-          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
-          @endif
         </span>
       </div>
       <!-- ここまでCardText -->
