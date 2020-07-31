@@ -32,10 +32,6 @@
 
               </form>
 
-              <div class="mt-0">
-                <a href="{{ route('register') }}" class="card-text">ユーザー登録はこちら</a>
-              </div>
-
               <div>
                 <a href="{{ route('admin.login') }}" class="card-text">管理者ログインはこちら</a>
               </div>
