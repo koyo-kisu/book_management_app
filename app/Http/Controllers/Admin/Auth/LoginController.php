@@ -53,11 +53,11 @@ protected function guard()
  */
 public function logout(Request $request)
 {
-    $this->guard()->logout();
+    $this->guard('admin')->logout();
 
     $request->session()->invalidate();
     // ログアウト後のリダイレクト先
-    return $this->loggedOut($request) ?: redirect('/admin/login');
+    return $this->loggedOut($request) ?: redirect(route('admin.login'));
 }
 
 }
