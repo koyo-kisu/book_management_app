@@ -68,7 +68,7 @@
         aria-labelledby="nav-likes-tab"
       >
         <div class="row mb-5 mt-3">
-          @foreach($books as $book)
+          @foreach($books_like as $book)
             @include('books.card')
           @endforeach
         </div>
@@ -80,7 +80,7 @@
         aria-labelledby="nav-history-tab"
       >
         <div class="row mb-5 mt-3">
-          @foreach($books as $book)
+          @foreach($books_booking as $book)
             @include('books.card')
           @endforeach
         </div>
@@ -92,7 +92,7 @@
         aria-labelledby="nav-bookings-tab"
       >
         <div class="row mb-5 mt-3">
-        @foreach($books as $book)
+        @foreach($books_history as $book)
           @include('books.card')
         @endforeach
         </div>
