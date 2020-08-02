@@ -15,7 +15,7 @@
 Auth::routes();
 Route::get('/', 'BookController@index')->name('books.index');
 // リソースフルルートでルート定義
-Route::resource('/books', 'BookController')->except(['index', 'show'])->middleware('auth');
+Route::resource('/books', 'BookController')->except(['index', 'show'])->middleware('auth:admin');
 Route::resource('/books', 'BookController')->only(['show']);
 
 // いいね機能

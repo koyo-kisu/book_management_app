@@ -31,7 +31,7 @@
         <div class="dropdown">
           <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <button type="button" class="btn btn-link text-muted m-0 p-2">
-              <i class="fas fa-ellipsis-v"></i>
+              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
             </button>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
@@ -107,11 +107,7 @@
         @endauth
 
         <span class="float-right mt-3">
-          @if( $book->state === "1" )
           <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
-          @else
-          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" disabled>予約できません</button>
-          @endif
         </span>
       </div>
       <!-- ここまでCardText -->

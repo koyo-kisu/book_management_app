@@ -22,10 +22,6 @@
   >
   </article-tags-input>
 </div>
-<div class="md-form">
-  <input type="radio" name="state" class="form-control" value="1">貸出できます
-  <input type="radio" name="state" class="form-control" value="2">貸出できません
-</div>
 <div class="form-group">
   <label>本の情報</label>
   <textarea name="description" class="form-control" rows="16" placeholder="この書籍の説明">{{ $book->description ?? old('description') }}</textarea>
