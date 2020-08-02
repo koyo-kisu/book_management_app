@@ -62,34 +62,40 @@
     </ul>
     <div class="tab-content" id="userTabsContent">
       <div
-        class="tab-pane fade show active row mb-5 mt-3"
+        class="tab-pane fade show active"
         id="nav-likes"
         role="tabpanel"
         aria-labelledby="nav-likes-tab"
       >
-        @foreach($books as $book)
-          @include('books.card')
-        @endforeach
+        <div class="row mb-5 mt-3">
+          @foreach($books as $book)
+            @include('books.card')
+          @endforeach
+        </div>
       </div>
       <div
-        class="tab-pane fade row mb-5 mt-3"
+        class="tab-pane fade"
         id="nav-history"
         role="tabpanel"
         aria-labelledby="nav-history-tab"
       >
-        @foreach($books as $book)
-          @include('books.card')
-        @endforeach
+        <div class="row mb-5 mt-3">
+          @foreach($books as $book)
+            @include('books.card')
+          @endforeach
+        </div>
       </div>
       <div
-        class="tab-pane fade row mb-5 mt-3"
+        class="tab-pane fade"
         id="nav-bookings"
         role="tabpanel"
         aria-labelledby="nav-bookings-tab"
       >
+        <div class="row mb-5 mt-3">
         @foreach($books as $book)
           @include('books.card')
         @endforeach
+        </div>
       </div>
     </div>
   </div>
