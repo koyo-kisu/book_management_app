@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 class User extends Authenticatable
 {
@@ -46,5 +48,23 @@ class User extends Authenticatable
     public function bookings(): BelongsToMany
     {
         return $this->belongsToMany('App\Book', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
+    }
+
+    // 今日以降の予約した本を取得
+    public function bookingsAfterToday(): Collection
+    {
+        return $this->bookings()
+            ->whereDate('booking_date_from', '>=' ,Carbon::now())
+            ->orderBy('booking_date_from', 'DESC')
+            ->get();
+    }
+
+    // 貸出履歴を取得
+    public function bookingsBeforeToday(): Collection
+    {
+        return $this->bookings()
+            ->whereDate('booking_date_from', '<' ,Carbon::now())
+            ->orderBy('booking_date_from', 'DESC')
+            ->get();
     }
 }

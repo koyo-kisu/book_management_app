@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -17,11 +19,15 @@ class UserController extends Controller
     public function show(string $name)
     {
         $user = User::where('name', $name)->first();
-        $books = $user->likes->sortByDesc('created_at');
+        $books_like = $user->likes->sortByDesc('created_at');
+        $books_booking = $user->bookingsAfterToday();
+        $books_history = $user->bookingsBeforeToday();
 
         return view('users.show', [
             'user' => $user,
-            'books' => $books,
+            'books_like' => $books_like,
+            'books_booking' => $books_booking,
+            'books_history' => $books_history,
         ]);
     }
 
