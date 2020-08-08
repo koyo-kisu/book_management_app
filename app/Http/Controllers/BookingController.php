@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Book;
 use App\Booking;
 use App\Http\Requests\BookingRequest;
 use App\Mail\BookingMail;
@@ -30,5 +32,23 @@ class BookingController extends Controller
         }
 
         return redirect()->back()->with('flash_success', '予約申請しました。');
+    }
+
+    public function index()
+    {
+        $applies = \App\Booking::orderBy('is_approved', 'asc')
+            ->orderBy('booking_date_from', 'asc')
+            ->paginate(50);
+
+        return view('bookings.index', [
+            'applies' => $applies,
+        ]);
+    }
+
+    public function show(Booking $id)
+    {
+        // $bk_id = \App\Booking::findOrFail($id);
+
+        return view('bookings.show');
     }
 }

@@ -106,9 +106,6 @@
           </div>
         @endauth
 
-        <span class="float-right mt-3">
-          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0">予約する</button>
-        </span>
       </div>
       <!-- ここまでCardText -->
     </div>

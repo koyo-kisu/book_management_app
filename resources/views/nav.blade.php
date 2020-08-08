@@ -12,9 +12,9 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('books.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
       </li>
-      <li class="content_list mb-2 mt-2">
+      <li class="content_list">
         <form id="logout-button" method="POST" action="{{ route('admin.logout') }}">
-          <button form="logout-button" type="submit">ログアウト</button>
+          <button form="logout-button" type="submit" class="btn btn-outline-dark btn-sm">ログアウト</button>
           @csrf
         </form>
       </li>
