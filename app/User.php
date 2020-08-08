@@ -53,12 +53,18 @@ class User extends Authenticatable
     // 今日以降の予約した本を取得
     public function bookingsAfterToday(): Collection
     {
-        return $this->bookings()->whereDate('booking_date_from', '>=' ,Carbon::now())->get();
+        return $this->bookings()
+            ->whereDate('booking_date_from', '>=' ,Carbon::now())
+            ->orderBy('booking_date_from', 'DESC')
+            ->get();
     }
 
     // 貸出履歴を取得
     public function bookingsBeforeToday(): Collection
     {
-        return $this->bookings()->whereDate('booking_date_from', '<' ,Carbon::now())->get();
+        return $this->bookings()
+            ->whereDate('booking_date_from', '<' ,Carbon::now())
+            ->orderBy('booking_date_from', 'DESC')
+            ->get();
     }
 }
