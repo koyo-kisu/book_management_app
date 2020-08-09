@@ -10,7 +10,7 @@
         <ul class="list-group list-group-horizontal">
           <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('books.index') }}">貸出書籍</a></li>
           <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('users.index') }}">ユーザー</a></li>
-          <li class="list-group-item list-group-item-action text-center col-4"><a href="#">申請状況</a></li>
+          <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('bookings.index') }}">申請状況</a></li>
         </ul>
       @endauth
     </div>

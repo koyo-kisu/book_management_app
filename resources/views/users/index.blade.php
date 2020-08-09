@@ -5,6 +5,14 @@
 @section('content')
 <div class="container">
 
+  <div class="mt-4">
+    <ul class="list-group list-group-horizontal">
+      <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('books.index') }}">貸出書籍</a></li>
+      <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('users.index') }}">ユーザー</a></li>
+      <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('bookings.index') }}">申請状況</a></li>
+    </ul>
+  </div>
+
   <!-- ページネーションの情報 -->
   <div class="mt-3 text-right">
     {{ $users->firstItem() }} - {{ $users->lastItem() }} / {{ $users->total() }}件
