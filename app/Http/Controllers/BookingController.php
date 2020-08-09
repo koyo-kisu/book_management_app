@@ -51,4 +51,10 @@ class BookingController extends Controller
 
         return view('bookings.show');
     }
+
+    public function cancel(Booking $booking)
+    {
+        $booking->delete();
+        return redirect()->back()->with('flash_success', '削除しました。');
+    }
 }
