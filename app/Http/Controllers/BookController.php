@@ -43,7 +43,7 @@ class BookController extends Controller
     // 本登録アクション
     public function store(BookRequest $request, Book $book)
     {
-        $this->createUpdate($request, $book);
+        $this->storeUpdate($request, $book);
 
         return redirect()->route('books.index')->with('flash_success', '登録しました。');
     }
@@ -70,7 +70,7 @@ class BookController extends Controller
     // 本情報更新処理アクション
     public function update(BookRequest $request, Book $book)
     {
-        $this->createUpdate($request, $book);
+        $this->storeUpdate($request, $book);
 
         return redirect()->route('books.index')->with('flash_success', '更新しました。');
     }
@@ -115,7 +115,7 @@ class BookController extends Controller
         ];
     }
 
-    private function createUpdate(BookRequest $request, Book $book)
+    private function storeUpdate(BookRequest $request, Book $book)
     {
         $book->title = $request->title;
         $book->author = $request->author;
