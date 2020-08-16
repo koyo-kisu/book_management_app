@@ -60,10 +60,15 @@ class BookController extends Controller
             return ['text' => $tag->name];
         });
 
+        $img_src = '';
+        if($book->book_image) {
+            $img_src = asset('storage/images/' . $book->book_image);
+        }
         return view('books.edit', [
             'book' => $book,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
+            'img_src' => $img_src,
         ]);
     }
 
@@ -121,7 +126,6 @@ class BookController extends Controller
         $book->author = $request->author;
         $book->publisher = $request->publisher;
         $book->description = $request->description;
-        $book->state = $request->state;
         if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
 
             if($book->book_image) {
@@ -130,7 +134,6 @@ class BookController extends Controller
                 Storage::delete($old_file);
             }
 
-            // storage/app/publicにファイルを保存
             $path = $request->file('book_image')->store('public/images');
             // 画像名DB保存
             $book->book_image = basename($path);
