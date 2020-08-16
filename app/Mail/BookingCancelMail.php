@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingMail extends Mailable
+class BookingCancelMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,6 +34,6 @@ class BookingMail extends Mailable
     public function build()
     {
         $to = $this->_admins->pluck('email');
-        return $this->subject('【予約申請】')->to($to)->view('mail.bookings.create');
+        return $this->subject('【予約キャンセル】')->to($to)->view('mail.bookings.cancel');
     }
 }

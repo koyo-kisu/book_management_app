@@ -6,8 +6,10 @@ use App\User;
 use App\Book;
 use App\Booking;
 use App\Http\Requests\BookingRequest;
+use App\Mail\BookingCancelMail;
 use App\Mail\BookingMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
@@ -50,5 +52,18 @@ class BookingController extends Controller
         // $bk_id = \App\Booking::findOrFail($id);
 
         return view('bookings.show');
+    }
+
+    public function cancel(Booking $booking)
+    {
+        try {
+            Mail::send(new BookingCancelMail($booking));
+        } catch (\Exception $e) {
+            logger()->info($e->getMessage());
+            logger()->info($e->getTraceAsString());
+        }
+        $booking->delete();
+
+        return redirect()->back()->with('flash_success', '削除しました。');
     }
 }

@@ -32,6 +32,7 @@ Route::prefix('bookings')->name('bookings.')->group(function () {
     Route::get('/', 'BookingController@index')->name('index')->middleware('auth:admin');
     Route::get('/show', 'BookingController@show')->name('show')->middleware('auth:admin');
     Route::post('/', 'BookingController@store')->name('store')->middleware('auth');
+    Route::delete('/{booking}', 'BookingController@cancel')->name('cancel');
 });
 
 // ユーザーページ

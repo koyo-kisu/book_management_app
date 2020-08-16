@@ -11,7 +11,7 @@
             @include('error_card_list')
             <div class="card-text">
               <!-- updateアクションに変数bookを渡す -->
-              <form method="POST" action="{{ route('books.update', ['book' => $book]) }}">
+              <form method="POST" action="{{ route('books.update', ['book' => $book]) }}" enctype="multipart/form-data">
                 <!-- methodフィールド：postメソッドではなくpatchメソッドとして解釈 -->
                 @method('PATCH')
                 @include('books.form')

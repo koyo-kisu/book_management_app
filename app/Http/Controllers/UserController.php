@@ -20,8 +20,8 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
         $books_like = $user->likes->sortByDesc('created_at');
-        $books_booking = $user->bookingsAfterToday();
-        $books_history = $user->bookingsBeforeToday();
+        $books_booking = $user->bookingsAfterToday()->get();
+        $books_history = $user->bookingsBeforeToday()->get();
 
         return view('users.show', [
             'user' => $user,

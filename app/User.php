@@ -47,24 +47,29 @@ class User extends Authenticatable
 
     public function bookings(): BelongsToMany
     {
-        return $this->belongsToMany('App\Book', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
+        return $this
+            ->belongsToMany('App\Book', 'bookings')
+            ->withPivot(
+                'id',
+                'booking_date_from',
+                'booking_date_to',
+                'is_approved',
+            );
     }
 
     // 今日以降の予約した本を取得
-    public function bookingsAfterToday(): Collection
+    public function bookingsAfterToday(): BelongsToMany
     {
         return $this->bookings()
             ->whereDate('booking_date_from', '>=' ,Carbon::now())
-            ->orderBy('booking_date_from', 'DESC')
-            ->get();
+            ->orderBy('booking_date_from', 'DESC');
     }
 
     // 貸出履歴を取得
-    public function bookingsBeforeToday(): Collection
+    public function bookingsBeforeToday(): BelongsToMany
     {
         return $this->bookings()
             ->whereDate('booking_date_from', '<' ,Carbon::now())
-            ->orderBy('booking_date_from', 'DESC')
-            ->get();
+            ->orderBy('booking_date_from', 'DESC');
     }
 }

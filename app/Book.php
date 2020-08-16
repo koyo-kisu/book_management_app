@@ -29,7 +29,13 @@ class Book extends Model
 
     public function bookings(): BelongsToMany
     {
-        return $this->belongsToMany('App\User', 'bookings')->withPivot('booking_date_from', 'booking_date_to');
+        return $this
+            ->belongsToMany('App\User', 'bookings')
+            ->withPivot(
+                'booking_date_from',
+                'booking_date_to',
+                'is_approved'
+            );
     }
 
     // ユーザーがこの記事をいいね済みかどうかを返すメソッド
