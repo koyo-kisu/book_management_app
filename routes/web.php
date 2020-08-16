@@ -33,7 +33,7 @@ Route::prefix('bookings')->name('bookings.')->group(function () {
     Route::post('/', 'BookingController@store')->name('store')->middleware('auth');
     Route::get('/{booking}', 'BookingController@show')->name('show')->middleware('auth:admin');
     Route::post('/{booking}', 'BookingController@approve')->name('approve')->middleware('auth:admin');
-    Route::delete('/{booking}', 'BookingController@destroy')->name('destroy')->middleware('auth:admin');
+    Route::delete('/{booking}', 'BookingController@reject')->name('reject')->middleware('auth:admin');
 });
 
 // ユーザーページ

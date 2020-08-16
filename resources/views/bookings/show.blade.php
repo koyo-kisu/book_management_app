@@ -17,10 +17,10 @@
     <div class="card">
       <div class="card-body">
         <p class="border-bottom">ユーザー名</p>
-        <h5 class="card-text">{{ $bookings->user->name }}</h5>
+        <h5 class="card-text">{{ $booking->user->name }}</h5>
         
         <p class="border-bottom mt-4">タイトル</p>
-        <h5 class="card-text">{{ $bookings->book->title }}</h5>
+        <h5 class="card-text">{{ $booking->book->title }}</h5>
 
         <p class="border-bottom mt-4">貸出日</p>
         <h5 class="card-text">{{ $booking_start }}</h5>
@@ -31,16 +31,11 @@
         <p class="border-bottom mt-4">申請日</p>
         <h5 class="card-text">{{ $booking_created_date }}</h5>
         
-        <form method="POST" action="{{ route('bookings.approve', ['bookings' => $bookings]) }}">
-          @method('PATCH')
-          <p class="mt-4">備考</p>
-          <textarea name="reply_comment" cols="100" class="form-control" rows="5"></textarea>
-        </form>
         <div>
           <!-- 未承認 -->
-          @if($bookings->is_approved === 0)
-            <button href="#" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
-              取消
+          @if($booking->status === 0)
+            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal">
+              却下
             </button>
 
             <!-- ここからModal -->
@@ -48,15 +43,21 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ $bookings->user->name }}さんの予約を本当に取り消しますか？</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $booking->user->name }}さんの予約を本当に取り消しますか？</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
+                  <form method="POST" action="{{ route('bookings.reject', ['booking' => $booking]) }}">
+                    @csrf
+                    @method('DELETE')
+                    <p class="mt-4">備考</p>
+                    <textarea name="reply_comment" cols="80" class="form-control p-1" rows="5" placeholder="特記事項があれば記入してください"></textarea>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-outline-dark" data-dismiss="modal">キャンセル</button>
-                      <button type="button" class="btn btn-outline-danger">取消実行</button>
+                      <button type="submit" class="btn btn-outline-danger">却下実行</button>
                     </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -71,15 +72,20 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ $bookings->user->name }}さんの予約を本当に承認しますか？</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $booking->user->name }}さんの予約を本当に承認しますか？</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">キャンセル</button>
-                    <button type="submit" class="btn btn-outline-primary">承認</button>
-                  </div>
+                  <form method="POST" action="{{ route('bookings.approve', ['booking' => $booking]) }}">
+                    @csrf
+                    <p class="mt-4">備考</p>
+                    <textarea name="reply_comment" cols="80" class="form-control p-1" rows="5" placeholder="特記事項があれば記入してください"></textarea>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-dark" data-dismiss="modal">キャンセル</button>
+                      <button type="submit" class="btn btn-outline-primary">承認</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

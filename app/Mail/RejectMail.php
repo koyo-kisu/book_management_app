@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ReplyMail extends Mailable
+class RejectMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -33,8 +33,8 @@ class ReplyMail extends Mailable
     {
         $to = ['email' => 'koyokisu@gmail.com'];
             
-        return $this->subject('【予約申請】')
+        return $this->subject('【予約却下】')
                     ->to($to)
-                    ->view('mail.reply');
+                    ->view('mail.reject');
     }
 }

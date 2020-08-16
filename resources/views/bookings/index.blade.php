@@ -41,7 +41,7 @@
           <td class="align-middle py-0">{{ $apply->user->name }}</td>
           <td class="align-middle py-0">{{ str_limit($apply->book->title, 60, '...') }}</td>
           <td class="align-middle py-0">{{ $apply->booking_date_from->format('Y年m月d日') }}</td>
-          @if($apply->is_approved === 0)
+          @if($apply->status === 0)
             <td class="align-middle py-0">未承認</td>
           @else
             <td class="align-middle py-0">承認済</td>
