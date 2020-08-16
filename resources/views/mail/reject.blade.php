@@ -1,4 +1,4 @@
-<div>予約を取り消しました。</div>
+<div>{{ $booking->user->name }}さんの予約を取り消しました。</div>
 <br>
 <div>内容は下記のとおりです。</div>
 <br>

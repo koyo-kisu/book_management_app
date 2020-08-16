@@ -1,4 +1,4 @@
-<div>予約申請がありました。</div>
+<div>{{ $booking->user->name }}さんの予約申請が承認されました。</div>
 <br>
 <div>内容は下記のとおりです。</div>
 <br>
@@ -10,5 +10,5 @@
 <div>備考：{{ $booking->reply_comment }}</div>
 <br>
 
-<div>下記のURLから、予約の承認を行ってください。</div>
+<div>下記のURLから、予約状況を確認してください。</div>
 <a href="/">URL</a>

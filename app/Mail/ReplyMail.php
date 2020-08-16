@@ -12,6 +12,7 @@ class ReplyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private $_users;
     public $booking;
 
     /**
@@ -21,6 +22,7 @@ class ReplyMail extends Mailable
      */
     public function __construct(Booking $booking)
     {
+        $this->_users = \App\User::all('email')->toArray();
         $this->booking = $booking;
     }
 
@@ -31,7 +33,7 @@ class ReplyMail extends Mailable
      */
     public function build()
     {
-        $to = ['email' => 'koyokisu@gmail.com'];
+        $to = array_column($this->_users, 'email');
             
         return $this->subject('【予約申請】')
                     ->to($to)
