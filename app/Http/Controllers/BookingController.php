@@ -74,8 +74,8 @@ class BookingController extends Controller
         ])->save();
 
         // メール送信処理
-        $user = \Auth::user();
-        $request->merge(['user_id' => $user->id]);
+        $aa = $request->merge(['user_id' => $booking->user->id]);
+        // dd($aa);
 
         try {
             Mail::send(new ReplyMail($booking));

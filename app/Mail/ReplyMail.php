@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Booking;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -22,7 +23,7 @@ class ReplyMail extends Mailable
      */
     public function __construct(Booking $booking)
     {
-        $this->_users = \App\User::all('email')->toArray();
+        $this->_users = \App\User::where(['email' => $booking->user->email])->toArray();
         $this->booking = $booking;
     }
 
