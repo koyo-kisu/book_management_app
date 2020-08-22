@@ -13,7 +13,7 @@ class RejectMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $_users;
+    private $user;
     public $booking;
 
     /**
@@ -23,7 +23,7 @@ class RejectMail extends Mailable
      */
     public function __construct(Booking $booking)
     {
-        $this->_users = \App\User::where(['email' => $booking->user->email])->toArray();
+        $this->user = $booking->user->email;
         $this->booking = $booking;
     }
 
@@ -34,10 +34,8 @@ class RejectMail extends Mailable
      */
     public function build()
     {
-        $to = array_column($this->_users, 'email');
-            
         return $this->subject('【予約却下】')
-                    ->to($to)
+                    ->to($this->user)
                     ->view('mail.reject');
     }
 }
