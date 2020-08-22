@@ -29,6 +29,8 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 // 予約申請ルート定義
 Route::prefix('bookings')->name('bookings.')->group(function () {
+    Route::delete('/{booking}/cancel', 'BookingController@cancel')->name('cancel')->middleware('auth');
+    
     Route::get('/', 'BookingController@index')->name('index')->middleware('auth:admin');
     Route::post('/', 'BookingController@store')->name('store')->middleware('auth');
     Route::get('/{booking}', 'BookingController@show')->name('show')->middleware('auth:admin');
