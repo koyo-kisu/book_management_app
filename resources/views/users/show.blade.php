@@ -106,7 +106,7 @@
               <td class="align-middle py-0">{{ str_limit($book->title, 60, '...') }}</td>
               <td class="align-middle py-0">{{ $book->pivot->booking_date_from }}</td>
               <td class="align-middle py-0">{{ $book->pivot->booking_date_to }}</td>
-              @if($book->pivot->is_approved === 0)
+              @if($book->pivot->status === 0)
                 <td class="align-middle py-0">未承認</td>
               @else
                 <td class="align-middle py-0">承認済</td>

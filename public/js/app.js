@@ -2112,6 +2112,64 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookImageInput.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BookImageInput.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    imgSrc: {
+      type: String
+    }
+  },
+  data: function data() {
+    return {
+      fileURL: ""
+    };
+  },
+  computed: {
+    imgSrcHandler: function imgSrcHandler() {
+      return this.fileURL ? this.fileURL : "http://placehold.it/200x270";
+    }
+  },
+  methods: {
+    fileChange: function fileChange(e) {
+      var files = e.target.files;
+
+      if (!files.length) {
+        this.fileURL = "";
+        return;
+      } // fileのURLを作成
+
+
+      var file = files[0];
+      var url = URL.createObjectURL(file);
+      this.fileURL = url;
+    }
+  },
+  created: function created() {
+    if (this.imgSrc) this.fileURL = this.imgSrc;
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookingDateInput.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BookingDateInput.vue?vue&type=script&lang=js& ***!
@@ -69012,6 +69070,55 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "image-wrapper" }, [
+      _c(
+        "a",
+        {
+          staticClass: "image-responsive",
+          attrs: {
+            href: _vm.imgSrcHandler,
+            target: "_blank",
+            rel: "noopener noreferrer"
+          }
+        },
+        [
+          _c("img", {
+            staticClass: "card-img-top image-fit",
+            attrs: { src: _vm.imgSrcHandler, alt: "image" }
+          })
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("input", {
+      attrs: { type: "file", name: "book_image" },
+      on: { change: _vm.fileChange }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookingDateInput.vue?vue&type=template&id=086a294e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BookingDateInput.vue?vue&type=template&id=086a294e& ***!
@@ -81326,6 +81433,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ArticleLike__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/ArticleLike */ "./resources/js/components/ArticleLike.vue");
 /* harmony import */ var _components_ArticleTagsInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ArticleTagsInput */ "./resources/js/components/ArticleTagsInput.vue");
 /* harmony import */ var _components_BookingDateInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/BookingDateInput */ "./resources/js/components/BookingDateInput.vue");
+/* harmony import */ var _components_BookImageInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/BookImageInput */ "./resources/js/components/BookImageInput.vue");
+
 
 
 
@@ -81336,7 +81445,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   components: {
     ArticleLike: _components_ArticleLike__WEBPACK_IMPORTED_MODULE_2__["default"],
     ArticleTagsInput: _components_ArticleTagsInput__WEBPACK_IMPORTED_MODULE_3__["default"],
-    BookingDateInput: _components_BookingDateInput__WEBPACK_IMPORTED_MODULE_4__["default"]
+    BookingDateInput: _components_BookingDateInput__WEBPACK_IMPORTED_MODULE_4__["default"],
+    BookImageInput: _components_BookImageInput__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 });
 
@@ -81543,6 +81653,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ArticleTagsInput_vue_vue_type_template_id_99f1e074_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ArticleTagsInput_vue_vue_type_template_id_99f1e074_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/BookImageInput.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/BookImageInput.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true& */ "./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true&");
+/* harmony import */ var _BookImageInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BookImageInput.vue?vue&type=script&lang=js& */ "./resources/js/components/BookImageInput.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BookImageInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "78ca53ba",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/BookImageInput.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/BookImageInput.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/BookImageInput.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BookImageInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BookImageInput.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookImageInput.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BookImageInput_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BookImageInput.vue?vue&type=template&id=78ca53ba&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BookImageInput_vue_vue_type_template_id_78ca53ba_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

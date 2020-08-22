@@ -53,7 +53,7 @@ class User extends Authenticatable
                 'id',
                 'booking_date_from',
                 'booking_date_to',
-                'is_approved',
+                'status',
             );
     }
 
