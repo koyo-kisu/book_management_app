@@ -43,7 +43,7 @@ class BookController extends Controller
     // 本登録アクション
     public function store(BookRequest $request, Book $book)
     {
-        $this->createUpdate($request, $book);
+        $this->storeUpdate($request, $book);
 
         return redirect()->route('books.index')->with('flash_success', '登録しました。');
     }
@@ -60,17 +60,22 @@ class BookController extends Controller
             return ['text' => $tag->name];
         });
 
+        $img_src = '';
+        if($book->book_image) {
+            $img_src = asset('storage/images/' . $book->book_image);
+        }
         return view('books.edit', [
             'book' => $book,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
+            'img_src' => $img_src,
         ]);
     }
 
     // 本情報更新処理アクション
     public function update(BookRequest $request, Book $book)
     {
-        $this->createUpdate($request, $book);
+        $this->storeUpdate($request, $book);
 
         return redirect()->route('books.index')->with('flash_success', '更新しました。');
     }
@@ -115,13 +120,12 @@ class BookController extends Controller
         ];
     }
 
-    private function createUpdate(BookRequest $request, Book $book)
+    private function storeUpdate(BookRequest $request, Book $book)
     {
         $book->title = $request->title;
         $book->author = $request->author;
         $book->publisher = $request->publisher;
         $book->description = $request->description;
-        $book->state = $request->state;
         if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
 
             if($book->book_image) {
@@ -130,7 +134,6 @@ class BookController extends Controller
                 Storage::delete($old_file);
             }
 
-            // storage/app/publicにファイルを保存
             $path = $request->file('book_image')->store('public/images');
             // 画像名DB保存
             $book->book_image = basename($path);
