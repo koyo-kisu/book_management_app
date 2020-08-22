@@ -8,6 +8,8 @@ use App\Booking;
 use App\Http\Requests\BookingRequest;
 use App\Mail\BookingCancelMail;
 use App\Mail\BookingMail;
+use App\Mail\ReplyMail;
+use App\Mail\RejectMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -38,8 +40,10 @@ class BookingController extends Controller
 
     public function index()
     {
-        $applies = \App\Booking::orderBy('is_approved', 'asc')
+        $applies = \App\Booking::orderBy('status', 'asc')
             ->orderBy('booking_date_from', 'asc')
+            ->orwhere(['status' => '0'])
+            ->orwhere(['status' => '1'])
             ->paginate(50);
 
         return view('bookings.index', [
@@ -47,11 +51,59 @@ class BookingController extends Controller
         ]);
     }
 
-    public function show(Booking $id)
+    public function show(Booking $booking)
     {
-        // $bk_id = \App\Booking::findOrFail($id);
+        $booking = \App\Booking::where(['id' => $booking->id])->first();
+        $booking_start = $booking->booking_date_from->format('Y年m月d日');
+        $booking_end = $booking->booking_date_to->format('Y年m月d日');
+        $booking_created_date = $booking->created_at->format('Y年m月d日');
 
-        return view('bookings.show');
+        return view('bookings.show', [
+            'booking' => $booking,
+            'booking_start' => $booking_start,
+            'booking_end' => $booking_end,
+            'booking_created_date' => $booking_created_date,
+        ]);
+    }
+
+    // 承認メール送信処理
+    public function approve(Request $request, Booking $booking)
+    {
+        // 備考欄データ保存
+        $booking->fill([
+            'reply_comment' => $request->reply_comment,
+            'status' => '1'
+        ])->save();
+
+        // メール送信処理
+        try {
+            Mail::send(new ReplyMail($booking));
+        } catch (\Exception $e) {
+            logger()->info($e->getMessage());
+            logger()->info($e->getTraceAsString());
+        }
+
+        return redirect()->route('bookings.index')->with('flash_success', '予約を承認しました。');
+    }
+
+    // 予約取り消し処理
+    public function reject(Request $request, Booking $booking)
+    {
+        // 備考欄データ保存
+        $booking->fill([
+            'reply_comment' => $request->reply_comment,
+            'status' => '2'
+        ])->save();
+
+        // メール送信処理
+        try {
+            Mail::send(new RejectMail($booking));
+        } catch (\Exception $e) {
+            logger()->info($e->getMessage());
+            logger()->info($e->getTraceAsString());
+        }
+
+        return redirect()->route('bookings.index')->with('flash_success', '予約を却下しました。');
     }
 
     public function cancel(Booking $booking)
