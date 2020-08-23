@@ -83,9 +83,12 @@
     <h4 class="border-bottom">詳細</h4>
     <div class="detail_text mb-5 text-break">{{ $book->description }}</div>
 
-    <div>
-        <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" data-toggle="modal" data-target="#modal-booking-{{ $book->id }}">予約する</button>
-    </div>
+
+    @auth('user')
+      <div>
+          <button type="button" class="btn btn-teal btn-rounded btn-sm m-0" data-toggle="modal" data-target="#modal-booking-{{ $book->id }}">予約する</button>
+      </div>
+    @endauth
   </div>
 </div>
 <!-- ここまで詳細情報 -->
