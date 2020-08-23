@@ -83,6 +83,20 @@
     <h4 class="border-bottom">詳細</h4>
     <div class="detail_text mb-5 text-break">{{ $book->description }}</div>
 
+    <h4 class="border-bottom">予約状況</h4>
+    <div class="mb-5">
+      @foreach ($user_bookings as $user_booking)
+        <div>
+          <span>
+            {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_from)) }}
+            -
+            {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_to)) }}
+          </span>
+          <span>{{ $user_booking->name }}</span>
+        </div>
+      @endforeach
+    </div>
+
 
     @auth('user')
       <div>
