@@ -84,17 +84,40 @@
     <div class="detail_text mb-5 text-break">{{ $book->description }}</div>
 
     <h4 class="border-bottom">予約状況</h4>
-    <div class="mb-5">
-      @foreach ($user_bookings as $user_booking)
-        <div>
-          <span>
-            {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_from)) }}
-            -
-            {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_to)) }}
-          </span>
-          <span>{{ $user_booking->name }}</span>
-        </div>
-      @endforeach
+    <div class="bookings-scroll-area mb-5">
+      @if(count($user_bookings))
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">貸出日</th>
+            <th scope="col">返却日</th>
+            <th scope="col">ユーザー名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 一覧を表示 -->
+          @foreach ($user_bookings as $user_booking)
+          <tr class="border-bottom border-primary">
+            <td class="align-middle py-0">
+              {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_from)) }}
+            </td>
+            <td class="align-middle py-0">
+              {{ date('Y年m月d日', strtotime($user_booking->pivot->booking_date_to)) }}
+            </td>
+            <td class="align-middle py-0">
+              @auth('admin')
+                <a href="{{ route('users.show', ['name' => $user_booking->name]) }}">{{ $user_booking->name }}</a>
+              @else
+                <span>{{ $user_booking->name }}</span>
+              @endauth
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+      @else
+      <p>予約がありません。</p>
+      @endif
     </div>
 
 

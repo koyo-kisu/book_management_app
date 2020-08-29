@@ -41,3 +41,8 @@ ul {
   object-fit: cover;
   object-position: center;
 }
+
+.bookings-scroll-area {
+  max-height: 200px;
+  overflow-y: auto;
+}
