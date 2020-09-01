@@ -38,8 +38,16 @@ class BookingController extends Controller
         return redirect()->back()->with('flash_success', '予約申請しました。');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->get('book-id')) {
+            $applies = \App\Booking::idSearched($request->get('book-id'));
+            $query = $request->get('book-id');
+        } else {
+            $applies = Booking::query();
+            $query = '';
+        }
+
         $applies = \App\Booking::orderBy('status', 'asc')
             ->orderBy('booking_date_from', 'asc')
             ->orwhere(['status' => '0'])
@@ -48,6 +56,7 @@ class BookingController extends Controller
 
         return view('bookings.index', [
             'applies' => $applies,
+            'query' => $query,
         ]);
     }
 

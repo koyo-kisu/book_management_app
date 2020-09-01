@@ -18,20 +18,42 @@
     {{ $applies->firstItem() }} - {{ $applies->lastItem() }} / {{ $applies->total() }}件
   </div>
 
+  <div class="row mb-5 mt-3">
+    <div class="col-12 col-md-6 offset-md-6">
+      <form action="{{ route('bookings.index') }}" method="GET">
+        <label for="search-book-id">ID検索</label>
+        <div class="input-group mb-3">
+          <input id="search-book-id" type="text" name="book-id" value="{{ $query }}"
+            class="form-control" placeholder="書籍IDを入力してください" aria-describedby="button-search">
+          </div>
+          
+          <select name="state">
+            <option value="0">未承認</option>
+            <option value="1">承認済</option>
+            <option value="2">貸出中</option>
+            <option value="3">返却済</option>
+          </select>
 
-  <div>
+          <div class="input-group-append">
+            <button class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect" type="submit" id="button-search">検索</button>
+          </div>
+      </form>
+    </div>
+  </div>
+
     <table class="table table-borderless">
       <thead>
         <tr>
           <th scope="col"></th>
           <th scope="col">ユーザー名</th>
+          <th scope="col">書籍ID</th>
           <th scope="col">書籍名</th>
           <th scope="col">貸出日</th>
           <th scope="col">状態</th>
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
+    <tbody>
         <!-- ユーザー一覧を表示 -->
         @foreach($applies as $apply)
         <tr class="border-bottom border-primary">
@@ -39,6 +61,7 @@
             <i class="fas fa-user text-primary"></i>
           </th>
           <td class="align-middle py-0">{{ $apply->user->name }}</td>
+          <td class="align-middle py-0">{{ $apply->book->id }}</td>
           <td class="align-middle py-0">{{ str_limit($apply->book->title, 60, '...') }}</td>
           <td class="align-middle py-0">{{ $apply->booking_date_from->format('Y年m月d日') }}</td>
           @if($apply->status === 0)
