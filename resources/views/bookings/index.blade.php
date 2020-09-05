@@ -27,7 +27,7 @@
             class="form-control" placeholder="書籍IDを入力してください" aria-describedby="button-search">
           </div>
           
-          <select name="state">
+          <select name="status">
             <option value="0">未承認</option>
             <option value="1">承認済</option>
             <option value="2">貸出中</option>

@@ -40,7 +40,15 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->get('book-id')) {
+        $id_search = $request->input('book-id');
+        $status_search = $request->input('status');
+        
+        if($request->has('status') && $status_search != '') {
+            $applies = \App\Booking::where('status', $status_search )->get();
+            $query = $request->get('status');
+        }
+
+        if ($request->has('book-id') && $id_search != '') {
             $applies = \App\Booking::idSearched($request->get('book-id'));
             $query = $request->get('book-id');
         } else {
