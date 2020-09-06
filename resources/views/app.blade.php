@@ -18,6 +18,8 @@
 
 <body>
   <div id="app">
+    @include('nav')
+    @include('flash_message')
     @yield('content')
   </div>
 

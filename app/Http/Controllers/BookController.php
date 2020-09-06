@@ -6,14 +6,25 @@ use App\Book;
 use App\Tag;
 use App\Http\Requests\BookRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
     // メイン画面アクション
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::all()->sortByDesc('created_at');
-        return view('books.index', ['books' => $books]);
+        if ($request->get('title')) {
+            $books = Book::searched($request->get('title'));
+            $query = $request->get('title');
+        } else {
+            $books = Book::query();
+            $query = '';
+        }
+        $books = $books->orderBy('created_at', 'DESC')->get();
+        return view('books.index', [
+            'books' => $books,
+            'query' => $query
+        ]);
     }
 
     // 本登録画面表示アクション
@@ -32,29 +43,9 @@ class BookController extends Controller
     // 本登録アクション
     public function store(BookRequest $request, Book $book)
     {
-        $book->title = $request->title;
-        $book->author = $request->author;
-        $book->publisher = $request->publisher;
-        $book->description = $request->description;
-        $book->state = $request->state;
-        if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
-            // 画像名のみDB保存
-            $path = $request->file('book_image')->store('public/images');
-            $book->book_image = basename($path);
-            // storage/app/publicにファイルを保存
-            $book->save();
-        } else {
-            return;
-        }
+        $this->storeUpdate($request, $book);
 
-        $request->tags->each(function ($tagName) use ($book) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $book->tags()->attach($tag);
-        });
-
-        return redirect()
-            ->route('books.index')
-            ->with('file_name', basename($path));
+        return redirect()->route('books.index')->with('flash_success', '登録しました。');
     }
 
     // 本情報更新画面表示アクション
@@ -69,34 +60,33 @@ class BookController extends Controller
             return ['text' => $tag->name];
         });
 
+        $img_src = '';
+        if($book->book_image) {
+            $img_src = asset('storage/images/' . $book->book_image);
+        }
         return view('books.edit', [
             'book' => $book,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
+            'img_src' => $img_src,
         ]);
     }
 
     // 本情報更新処理アクション
     public function update(BookRequest $request, Book $book)
     {
-        $book->fill($request->all())->save();
+        $this->storeUpdate($request, $book);
 
-        // tagを一旦全て削除する
-        $book->tags()->detach();
-        $request->tags->each(function ($tagName) use ($book) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            // 改めてtagを追加する
-            $book->tags()->attach($tag);
-        });
-
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('flash_success', '更新しました。');
     }
 
     // 詳細画面表示アクション
     public function show(Book $book)
     {
+        $user_bookings = $book->bookingsAfterToday()->get();
         return view('books.show', [
             'book' => $book,
+            'user_bookings' => $user_bookings,
         ]);
     }
 
@@ -104,7 +94,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('flash_success', '削除しました。');
     }
 
     // いいねアクション
@@ -128,5 +118,33 @@ class BookController extends Controller
             'id' => $book->id,
             'countLikes' => $book->count_likes,
         ];
+    }
+
+    private function storeUpdate(BookRequest $request, Book $book)
+    {
+        $book->title = $request->title;
+        $book->author = $request->author;
+        $book->publisher = $request->publisher;
+        $book->description = $request->description;
+        if ($request->hasFile('book_image') && $request->file('book_image')->isValid()) {
+
+            if($book->book_image) {
+                // 旧画像ファイルを削除
+                $old_file = 'public/images/' . $book->book_image;
+                Storage::delete($old_file);
+            }
+
+            $path = $request->file('book_image')->store('public/images');
+            // 画像名DB保存
+            $book->book_image = basename($path);
+        }
+        $book->save();
+
+        // tagを一旦全て削除する
+        $book->tags()->detach();
+        $request->tags->each(function ($tagName) use ($book) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $book->tags()->attach($tag);
+        });
     }
 }
