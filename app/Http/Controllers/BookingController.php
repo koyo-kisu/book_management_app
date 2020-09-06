@@ -40,28 +40,26 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $book_id = $request->input('book-id');
+        $book_id = $request->input('book_id');
         $status = $request->input('status');
 
-        if($request) {
-            $applies = \App\Booking::query()
-                ->when($request->has('status'), function($query) use ($status) {
-                    $query->where('status', $status);
-                })
-                ->when($request->has('book-id'), function($query) use ($book_id) {
-                    $query->where('book_id', $book_id);
-                })
-                ->orderBy('status', 'asc')
-                ->orderBy('booking_date_from', 'asc')
-                ->orwhere(['status' => '0'])
-                ->orwhere(['status' => '1'])
-                ->orwhere(['status' => '2'])
-                ->orwhere(['status' => '3'])
-                ->paginate(50);
-        } else {
-            $applies = Booking::query();
-            $query = '';
-        }
+        $applies = \App\Booking::query()
+            ->when(!is_null($status), function($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when($book_id, function($query) use ($book_id) {
+                $book_id = mb_convert_kana($book_id, "n");
+                $query->where('book_id', $book_id);
+            })
+            ->orderBy('status', 'asc')
+            ->orderBy('booking_date_from', 'asc')
+            ->paginate(50);
+
+        $query = [
+            'book_id' => $book_id,
+            'status' => $status,
+        ];
+
         return view('bookings.index', [
             'applies' => $applies,
             'query' => $query,

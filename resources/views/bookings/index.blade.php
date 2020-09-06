@@ -12,7 +12,7 @@
       <li class="list-group-item list-group-item-action text-center col-4"><a href="{{ route('bookings.index') }}">申請状況</a></li>
     </ul>
   </div>
-  
+
   <!-- ページネーションの情報 -->
 
   <div class="row mb-5 mt-3">
@@ -20,15 +20,15 @@
       <form action="{{ route('bookings.index') }}" method="GET">
         <label for="search-book-id">ID検索</label>
         <div class="input-group mb-3">
-          <input id="search-book-id" type="text" name="book-id" 
+        <input id="search-book-id" type="text" name="book_id" value="{{ $query['book_id'] }}"
             class="form-control" placeholder="書籍IDを入力してください" aria-describedby="button-search">
           </div>
-          
+
           <select name="status">
-            <option value="0">未承認</option>
-            <option value="1">承認済</option>
-            <option value="2">貸出中</option>
-            <option value="3">返却済</option>
+            <option value="">未選択</option>
+            @foreach (config('master.status') as $key => $value)
+              <option value="{{$key}}" @if($query['status'] === (string)$key) selected @endif>{{$value}}</option>
+            @endforeach
           </select>
 
           <div class="input-group-append">

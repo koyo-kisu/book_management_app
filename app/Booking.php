@@ -28,19 +28,4 @@ class Booking extends Pivot
     {
         return $this->belongsTo('App\Book', 'book_id');
     }
-
-    // 書籍IDでの検索メソッド
-    public static function idSearched(string $num = "")
-    {
-        // 半角数字に変換
-        $id_search = mb_convert_kana($num, "n");
-        $booking_id = \App\Booking::where(['book_id' => $id_search])
-        ->orderBy('status', 'asc')
-        ->orderBy('booking_date_from', 'asc')
-        ->orwhere(['status' => '0'])
-        ->orwhere(['status' => '1'])
-        ->paginate(50);
-
-        return $booking_id;
-    }
 }
