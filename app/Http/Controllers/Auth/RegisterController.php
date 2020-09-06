@@ -48,7 +48,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * 仮登録時のバリデーション
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -91,10 +91,7 @@ class RegisterController extends Controller
 
     /**
      * 登録後は仮登録完了画面へ
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return view
+     * @return \Illuminate\View\View
      */
     protected function registered()
     {
@@ -144,8 +141,11 @@ class RegisterController extends Controller
         try {
             // 仮登録情報を本登録ユーザーとして登録
             event(new Registered($user = $this->createUser($emailVerification)));
+            // 仮登録情報を削除
+            $emailVerification->delete();
             // ログイン
             $this->guard()->login($user);
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -157,7 +157,7 @@ class RegisterController extends Controller
 
 
     /**
-     * 本登録ユーザー登録
+     * 本登録ユーザー作成
      *
      * @param EmailVerification $emailVerification
      * @return User $user
