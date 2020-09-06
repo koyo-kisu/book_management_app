@@ -83,10 +83,10 @@ class BookController extends Controller
     // 詳細画面表示アクション
     public function show(Book $book)
     {
-        $bookings = \App\Booking::where(['book_id' => $book->id])->orderBy('booking_date_to')->get();
+        $user_bookings = $book->bookingsAfterToday()->get();
         return view('books.show', [
             'book' => $book,
-            'bookings' => $bookings,
+            'user_bookings' => $user_bookings,
         ]);
     }
 
