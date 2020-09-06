@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\EmailVerification;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegisterController extends Controller
 {
@@ -57,17 +63,41 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * registerを仮登録処理にする
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    protected function create(array $data)
+    public function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        // 本登録データを見てバリデーションかける
+        $this->validator($request->all())->validate();
+
+        // 仮登録データ作成
+        $user = EmailVerification::build($request->all());
+
+        DB::beginTransaction();
+        try {
+            // 認証用メール送信
+            Mail::to($request->email)->send(new \App\Mail\EmailVerification($user));
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            logger()->error("登録に失敗しました。 {$e->getMessage}", $e->getTrace());
+            return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);
+        }
+        return view('auth.registered');
+    }
+
+    /**
+     * 登録後は仮登録完了画面へ
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return view('auth.registered');
     }
 }
