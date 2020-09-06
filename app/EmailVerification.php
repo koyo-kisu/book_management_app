@@ -19,6 +19,14 @@ class EmailVerification extends Model
         parent::__construct($attributes);
     }
 
+    public static function findByIdToken(array $data)
+    {
+        return \App\EmailVerification::where([
+            'id' => $data['id'],
+            'token' => $data['token'],
+        ])->first();
+    }
+
     public static function build(array $data)
     {
         // 同じアドレスで仮登録した場合、上書きする

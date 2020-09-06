@@ -86,7 +86,7 @@ class RegisterController extends Controller
             logger()->error("登録に失敗しました。 {$e->getMessage}", $e->getTrace());
             return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);
         }
-        return view('auth.registered');
+        return $this->registered();
     }
 
     /**
@@ -94,10 +94,90 @@ class RegisterController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
-     * @return mixed
+     * @return view
      */
-    protected function registered(Request $request, $user)
+    protected function registered()
     {
         return view('auth.registered');
+    }
+
+
+    /**
+     * メールアドレス認証のバリデーション
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function verifyValidator(array $data)
+    {
+        return Validator::make($data, [
+            'id' => ['required'],
+            'token' => ['required', 'string'],
+        ]);
+    }
+
+    /**
+     * メールアドレス認証処理
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function emailVerifyComplete(Request $request)
+    {
+        $validator = $this->verifyValidator($request->all());
+
+        // バリデーション失敗時
+        if($validator->fails()) {
+            dd(1);
+            return $this->verifyFailed();
+        }
+
+        $emailVerification = EmailVerification::findByIdToken($request->all());
+
+        // データが見つからない場合
+        if(empty($emailVerification)) {
+            dd(2);
+            return $this->verifyFailed();
+        }
+
+        DB::beginTransaction();
+        try {
+            // 仮登録情報を本登録ユーザーとして登録
+            event(new Registered($user = $this->createUser($emailVerification)));
+            // ログイン
+            $this->guard()->login($user);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            logger()->error("認証に失敗しました。 {$e->getMessage}", $e->getTrace());
+            return redirect()->route('register')->withErrors(['error' => '認証に失敗しました。']);
+        }
+        return redirect($this->redirectPath())->with('flash_success', '認証が完了しました。');
+    }
+
+
+    /**
+     * 本登録ユーザー登録
+     *
+     * @param EmailVerification $emailVerification
+     * @return User $user
+     */
+    protected function createUser(EmailVerification $emailVerification)
+    {
+        return User::create([
+            'name' => $emailVerification->name,
+            'email' => $emailVerification->email,
+            'password' =>  $emailVerification->password,
+        ]);
+    }
+
+    /**
+     * 認証失敗時
+     *
+     * @return \Illuminate\Http\Response
+     */
+    protected function verifyFailed()
+    {
+        return redirect()->route('register')->with('flash_warning', '認証に失敗しました。お手数ですが、初めからやり直してください。');
     }
 }
