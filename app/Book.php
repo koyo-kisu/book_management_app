@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 
 class Book extends Model
 {
@@ -34,7 +35,7 @@ class Book extends Model
             ->withPivot(
                 'booking_date_from',
                 'booking_date_to',
-                'is_approved'
+                'status'
             );
     }
 
@@ -73,5 +74,13 @@ class Book extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    // 今日以降の予約情報を取得
+    public function bookingsAfterToday(): BelongsToMany
+    {
+        return $this->bookings()
+            ->whereDate('booking_date_from', '>=' ,Carbon::now())
+            ->orderBy('booking_date_from', 'ASC');
     }
 }
