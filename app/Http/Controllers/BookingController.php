@@ -40,28 +40,28 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $id_search = $request->input('book-id');
-        $status_search = $request->input('status');
-        
-        if($request->has('status') && $status_search != '') {
-            $applies = \App\Booking::where('status', $status_search )->get();
-            $query = $request->get('status');
-        }
+        $book_id = $request->input('book-id');
+        $status = $request->input('status');
 
-        if ($request->has('book-id') && $id_search != '') {
-            $applies = \App\Booking::idSearched($request->get('book-id'));
-            $query = $request->get('book-id');
+        if($request) {
+            $applies = \App\Booking::query()
+                ->when($request->has('status'), function($query) use ($status) {
+                    $query->where('status', $status);
+                })
+                ->when($request->has('book-id'), function($query) use ($book_id) {
+                    $query->where('book_id', $book_id);
+                })
+                ->orderBy('status', 'asc')
+                ->orderBy('booking_date_from', 'asc')
+                ->orwhere(['status' => '0'])
+                ->orwhere(['status' => '1'])
+                ->orwhere(['status' => '2'])
+                ->orwhere(['status' => '3'])
+                ->paginate(50);
         } else {
             $applies = Booking::query();
             $query = '';
         }
-
-        $applies = \App\Booking::orderBy('status', 'asc')
-            ->orderBy('booking_date_from', 'asc')
-            ->orwhere(['status' => '0'])
-            ->orwhere(['status' => '1'])
-            ->paginate(50);
-
         return view('bookings.index', [
             'applies' => $applies,
             'query' => $query,

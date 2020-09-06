@@ -14,16 +14,13 @@
   </div>
   
   <!-- ページネーションの情報 -->
-  <div class="mt-3 text-right">
-    {{ $applies->firstItem() }} - {{ $applies->lastItem() }} / {{ $applies->total() }}件
-  </div>
 
   <div class="row mb-5 mt-3">
     <div class="col-12 col-md-6 offset-md-6">
       <form action="{{ route('bookings.index') }}" method="GET">
         <label for="search-book-id">ID検索</label>
         <div class="input-group mb-3">
-          <input id="search-book-id" type="text" name="book-id" value="{{ $query }}"
+          <input id="search-book-id" type="text" name="book-id" 
             class="form-control" placeholder="書籍IDを入力してください" aria-describedby="button-search">
           </div>
           
@@ -66,8 +63,12 @@
           <td class="align-middle py-0">{{ $apply->booking_date_from->format('Y年m月d日') }}</td>
           @if($apply->status === 0)
             <td class="align-middle py-0">未承認</td>
-          @else
+          @elseif($apply->status === 1)
             <td class="align-middle py-0">承認済</td>
+          @elseif($apply->status === 2)
+            <td class="align-middle py-0">貸出中</td>
+          @else
+            <td class="align-middle py-0">返却済</td>
           @endif
           <td class="align-middle py-0 text-right">
             <a href="{{ route('bookings.show', ['booking' => $apply]) }}">
