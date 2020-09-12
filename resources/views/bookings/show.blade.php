@@ -30,6 +30,21 @@
 
         <p class="border-bottom mt-4">申請日</p>
         <h5 class="card-text">{{ $booking_created_date }}</h5>
+
+        <p class="border-bottom mt-4">状態</p>
+        
+        @if($booking->status === 0)
+        <h5 class="card-text">未承認</h5>
+
+        @elseif($booking->status === 1)
+        <h5 class="card-text">承認済</h5>
+
+        @elseif($booking->status === 2)
+        <h5 class="card-text">貸出中</h5>
+
+        @else
+        <h5 class="card-text">返却済</h5>
+        @endif
         
         <div>
           <!-- 未承認 -->
@@ -92,9 +107,33 @@
             <!-- ここまでModal -->
 
 
-          <!-- 承認済 -->
+          <!-- 貸出 -->
+          @elseif($booking->status === 1)
+            <form method="POST" action="{{ route('bookings.lending', ['booking' => $booking]) }}">
+              @csrf
+              <input type="hidden" name= "lending" value="2">
+              <button type="submit" class="btn btn-outline-primary">
+                貸出
+              </button>
+            </form>
+          
+          <!-- 返却 -->
+          @elseif($booking->status === 2)
+            <form method="POST" action="{{ route('bookings.returned', ['booking' => $booking]) }}">
+              @csrf
+              <input type="hidden" name= "returned" value="3">
+              <input type="hidden" name = "booking_id" value ="{{ $booking->id }}">
+              <button type="submit" class="btn btn-outline-primary">
+                返却
+              </button>
+            </form>
+
+          <!-- 返却済 -->
           @else
-            <button type="button" class="btn btn-outline-dark" disable>承認済</button>
+            <button type="button" class="btn btn-outline-dark" disable>
+              返却済
+            </button>
+
           @endif
         </div>
 

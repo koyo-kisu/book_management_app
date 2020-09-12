@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Book;
 use App\Booking;
+use App\Lending;
 use App\Http\Requests\BookingRequest;
 use App\Mail\BookingCancelMail;
 use App\Mail\BookingMail;
@@ -107,7 +108,7 @@ class BookingController extends Controller
         // 備考欄データ保存
         $booking->fill([
             'reply_comment' => $request->reply_comment,
-            'status' => '2'
+            'status' => '4'
         ])->save();
 
         // メール送信処理
@@ -133,4 +134,35 @@ class BookingController extends Controller
 
         return redirect()->back()->with('flash_success', '削除しました。');
     }
+
+    public function lending(Request $request, Booking $booking, Lending $lending)
+    {
+        $today = date("Y-m-d");
+        $lending->create([
+            'lending_date' => $today,
+            'booking_id' => $booking->id,
+        ]);
+
+        $booking->fill([
+            'status' => $request->lending,
+        ])->save();
+
+        return redirect()->route('bookings.index')->with('flash_success', '本を貸出しました。');
+    }
+
+    public function returned(Request $request, Booking $booking, Lending $lending)
+    {
+        $returned = \App\lending::where(['booking_id' => $request->booking_id])->first();
+        $today = date("Y-m-d");
+        $returned->fill([
+            'return_date' => $today,
+        ])->save();
+
+        $booking->fill([
+            'status' => $request->returned,
+        ])->save();
+
+        return redirect()->route('bookings.index')->with('flash_success', '本を返却しました。');
+    }
+
 }
