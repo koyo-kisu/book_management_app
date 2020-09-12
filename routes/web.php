@@ -13,6 +13,10 @@
 
 // ユーザー側ルート定義
 Auth::routes();
+
+// ユーザーメール認証ルート
+Route::get('/register/verify', 'Auth\RegisterController@emailVerifyComplete')->name('register.verify')->middleware('guest');
+
 Route::get('/', 'BookController@index')->name('books.index');
 // リソースフルルートでルート定義
 Route::resource('/books', 'BookController')->except(['index', 'show'])->middleware('auth:admin');
