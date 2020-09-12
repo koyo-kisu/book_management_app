@@ -109,24 +109,63 @@
 
           <!-- 貸出 -->
           @elseif($booking->status === 1)
-            <form method="POST" action="{{ route('bookings.lending', ['booking' => $booking]) }}">
-              @csrf
-              <input type="hidden" name= "lending" value="2">
-              <button type="submit" class="btn btn-outline-primary">
-                貸出
-              </button>
-            </form>
+            <button type="submit" class="btn btn-outline-primary" data-toggle="modal" data-target="#acceptModal">
+              貸出
+            </button>
+
+             <!-- ここからModal -->
+             <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $booking->user->name }}さんに本を貸出しますか？</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="POST" action="{{ route('bookings.lending', ['booking' => $booking]) }}">
+                    @csrf
+                    <div class="modal-footer">
+                      <input type="hidden" name= "lending" value="2">
+                      <button type="button" class="btn btn-outline-dark" data-dismiss="modal">キャンセル</button>
+                      <button type="submit" class="btn btn-outline-primary">貸出</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- ここまでModal -->
+
           
           <!-- 返却 -->
           @elseif($booking->status === 2)
-            <form method="POST" action="{{ route('bookings.returned', ['booking' => $booking]) }}">
-              @csrf
-              <input type="hidden" name= "returned" value="3">
-              <input type="hidden" name = "booking_id" value ="{{ $booking->id }}">
-              <button type="submit" class="btn btn-outline-primary">
-                返却
-              </button>
-            </form>
+            <button type="submit" class="btn btn-outline-primary" data-toggle="modal" data-target="#acceptModal">
+              返却
+            </button>
+
+            <!-- ここからModal -->
+            <div class="modal fade" id="acceptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ $booking->user->name }}さんの本を返却しますか？</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form method="POST" action="{{ route('bookings.returned', ['booking' => $booking]) }}">
+                    @csrf
+                    <div class="modal-footer">
+                      <input type="hidden" name= "returned" value="3">
+                      <input type="hidden" name = "booking_id" value ="{{ $booking->id }}">
+                      <button type="button" class="btn btn-outline-dark" data-dismiss="modal">キャンセル</button>
+                      <button type="submit" class="btn btn-outline-primary">返却</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- ここまでModal -->
 
           <!-- 返却済 -->
           @else
