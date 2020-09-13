@@ -25,7 +25,7 @@
               <a href="{{ route('email.modify') }}">メールアドレス変更</a>
             </div>
             <div class="d-md-inline-block ml-3 text-right">
-              <a href="{{ route('email.modify') }}">パスワード変更</a>
+              <a href="{{ route('password.modify') }}">パスワード変更</a>
             </div>
           </div>
         </div>

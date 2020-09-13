@@ -17,6 +17,9 @@ Auth::routes();
 // ユーザーメール認証ルート
 Route::get('/register/verify', 'Auth\RegisterController@emailVerifyComplete')->name('register.verify')->middleware('guest');
 
+// パスワード変更ルート
+Route::get('/password/modify', 'Auth\PasswordModificationController@showForm')->name('password.modify')->middleware('auth');
+
 // ユーザーメールアドレス変更ルート
 Route::get('/email/modify', 'Auth\EmailModificationController@showForm')->name('email.modify')->middleware('auth');
 Route::get('/email/modify/check', 'Auth\EmailModificationController@checkModification')->name('email.modify.check');
