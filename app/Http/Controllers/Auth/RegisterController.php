@@ -125,7 +125,6 @@ class RegisterController extends Controller
 
         // バリデーション失敗時
         if($validator->fails()) {
-            dd(1);
             return $this->verifyFailed();
         }
 
@@ -133,7 +132,6 @@ class RegisterController extends Controller
 
         // データが見つからない場合
         if(empty($emailVerification)) {
-            dd(2);
             return $this->verifyFailed();
         }
 

@@ -13,6 +13,14 @@ class EmailModification extends Model
     ];
 
 
+    public static function findByIdToken(array $data)
+    {
+        return self::where([
+            'user_id' => $data['user_id'],
+            'token' => $data['token'],
+        ])->first();
+    }
+
     public static function build(array $data)
     {
         // 同じユーザが変更しようとした場合、上書きする
