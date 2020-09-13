@@ -135,6 +135,7 @@ class BookingController extends Controller
         return redirect()->back()->with('flash_success', '削除しました。');
     }
 
+    // 貸出処理
     public function lending(Request $request, Booking $booking, Lending $lending)
     {
         $today = date("Y-m-d");
@@ -144,12 +145,13 @@ class BookingController extends Controller
         ]);
 
         $booking->fill([
-            'status' => $request->lending,
+            'status' => '2',
         ])->save();
 
         return redirect()->route('bookings.index')->with('flash_success', '本を貸出しました。');
     }
 
+    // 返却処理
     public function returned(Request $request, Booking $booking, Lending $lending)
     {
         $returned = \App\lending::where(['booking_id' => $request->booking_id])->first();
@@ -159,7 +161,7 @@ class BookingController extends Controller
         ])->save();
 
         $booking->fill([
-            'status' => $request->returned,
+            'status' => '3',
         ])->save();
 
         return redirect()->route('bookings.index')->with('flash_success', '本を返却しました。');
