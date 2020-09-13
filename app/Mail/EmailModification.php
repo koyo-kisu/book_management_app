@@ -11,14 +11,18 @@ class EmailModification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $link;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data)
     {
-        //
+        // 認証用URL発行
+        $route = route('email.modify.check');
+        $this->link = $route . "?user_id={$data['user_id']}&token={$data['token']}";
     }
 
     /**
@@ -28,6 +32,6 @@ class EmailModification extends Mailable
      */
     public function build()
     {
-        return $this->subject('【メールアドレス認証のご案内】仮登録ありがとうございます。URLより、認証を完了してください。')->view('mail.auth.registered');
+        return $this->subject('【メールアドレス変更のご案内】URLより、メールアドレス変更を完了してください。')->view('mail.auth.email.modify');
     }
 }

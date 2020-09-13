@@ -39,11 +39,11 @@ class EmailModificationController extends Controller
 
         try {
             // 認証用メール送信
-            // Mail::to($request->email)->send(new \App\Mail\EmailModification($email_modification));
+            Mail::to($request->email)->send(new \App\Mail\EmailModification($email_modification));
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            logger()->error("メール送信に失敗しました。 {$e->getMessage}", $e->getTrace());
+            logger()->error("メール送信に失敗しました。 {$e->getMessage()}", $e->getTrace());
             return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);
         }
         return $this->afterSentEmail();
