@@ -7,16 +7,28 @@
   <div class="container">
     <div class="card mt-3">
       <div class="card-body">
-        <div class="d-flex flex-row">
-          <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-            <i class="fas fa-user-circle fa-3x"></i>
-          </a>
+        <div class="d-flex">
+          <div>
+            <div class="d-flex flex-row">
+              <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+                <i class="fas fa-user-circle fa-3x"></i>
+              </a>
+            </div>
+            <h2 class="h5 card-title m-0">
+              <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+                {{ $user->name }}
+              </a>
+            </h2>
+          </div>
+          <div class="ml-auto align-self-end">
+            <div class="d-md-inline-block text-right">
+              <a href="{{ route('email.modify') }}">メールアドレス変更</a>
+            </div>
+            <div class="d-md-inline-block ml-3 text-right">
+              <a href="{{ route('email.modify') }}">パスワード変更</a>
+            </div>
+          </div>
         </div>
-        <h2 class="h5 card-title m-0">
-          <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-            {{ $user->name }}
-          </a>
-        </h2>
       </div>
     </div>
     <!-- タブリスト -->
