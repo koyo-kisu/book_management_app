@@ -30,7 +30,7 @@ class EmailVerification extends Model
     public static function build(array $data)
     {
         // 同じアドレスで仮登録した場合、上書きする
-        $emailVerification = \App\EmailVerification::updateOrCreate(
+        $email_verification = \App\EmailVerification::updateOrCreate(
             ['email' => $data['email']],
             [
                 'name' => $data['name'],
@@ -38,6 +38,6 @@ class EmailVerification extends Model
                 'password' => Hash::make($data['password']),
             ]
         );
-        return $emailVerification;
+        return $email_verification;
     }
 }
