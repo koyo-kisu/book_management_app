@@ -73,10 +73,10 @@ class RegisterController extends Controller
         // 本登録データを見てバリデーションかける
         $this->validator($request->all())->validate();
 
+        DB::beginTransaction();
         // 仮登録データ作成
         $user = EmailVerification::build($request->all());
 
-        DB::beginTransaction();
         try {
             // 認証用メール送信
             Mail::to($request->email)->send(new \App\Mail\EmailVerification($user));

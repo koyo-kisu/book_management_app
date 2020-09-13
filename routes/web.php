@@ -18,9 +18,9 @@ Auth::routes();
 Route::get('/register/verify', 'Auth\RegisterController@emailVerifyComplete')->name('register.verify')->middleware('guest');
 
 // ユーザーメールアドレス変更ルート
-Route::get('/email/modify', 'EmailModificationController@showForm')->name('email.modify')->middleware('auth');
-Route::get('/email/modify/check', 'EmailModificationController@checkModification')->name('email.modify.check');
-Route::post('/email/modify', 'EmailModificationController@sendMail')->name('email.modify.send')->middleware('auth');
+Route::get('/email/modify', 'Auth\EmailModificationController@showForm')->name('email.modify')->middleware('auth');
+Route::get('/email/modify/check', 'Auth\EmailModificationController@checkModification')->name('email.modify.check');
+Route::post('/email/modify', 'Auth\EmailModificationController@sendMail')->name('email.modify.send')->middleware('auth');
 
 
 Route::get('/', 'BookController@index')->name('books.index');
