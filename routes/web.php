@@ -23,9 +23,11 @@ Route::post('/password/modify', 'Auth\PasswordModificationController@sendMail')-
 
 
 // ユーザーメールアドレス変更ルート
-Route::get('/email/modify', 'Auth\EmailModificationController@showForm')->name('email.modify')->middleware('auth');
-Route::get('/email/modify/check', 'Auth\EmailModificationController@checkModification')->name('email.modify.check');
-Route::post('/email/modify', 'Auth\EmailModificationController@sendMail')->name('email.modify.send')->middleware('auth');
+Route::prefix('email')->name('email.')->group(function () {
+    Route::get('/modify/check', 'Auth\EmailModificationController@checkModification')->name('modify.check');
+    Route::get('/modify', 'Auth\EmailModificationController@showForm')->name('modify')->middleware('auth');
+    Route::post('/modify', 'Auth\EmailModificationController@sendMail')->name('modify.send')->middleware('auth');
+});
 
 
 Route::get('/', 'BookController@index')->name('books.index');
