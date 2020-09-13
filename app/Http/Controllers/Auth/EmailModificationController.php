@@ -108,7 +108,7 @@ class EmailModificationController extends Controller
             logger()->error("変更に失敗しました。 {$e->getMessage}", $e->getTrace());
             return $this->verifyFailed();
         }
-        return redirect('/')->with('flash_success', 'メールアドレスの変更が完了しました。');
+        return redirect()->route('books.index')->with('flash_success', 'メールアドレスの変更が完了しました。');
     }
 
     /**

@@ -19,6 +19,8 @@ Route::get('/register/verify', 'Auth\RegisterController@emailVerifyComplete')->n
 
 // パスワード変更ルート
 Route::get('/password/modify', 'Auth\PasswordModificationController@showForm')->name('password.modify')->middleware('auth');
+Route::post('/password/modify', 'Auth\PasswordModificationController@sendMail')->middleware('auth');
+
 
 // ユーザーメールアドレス変更ルート
 Route::get('/email/modify', 'Auth\EmailModificationController@showForm')->name('email.modify')->middleware('auth');

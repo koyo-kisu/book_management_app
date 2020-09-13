@@ -18,19 +18,19 @@
 
                 <div class="mb-5">
                   <div class="md-form">
-                    <label for="old_password">現在のパスワード</label>
-                    <input class="form-control" type="password" id="old_password" name="old_password" required value="{{ old('old_password') }}">
+                    <label for="current_password">現在のパスワード</label>
+                    <input class="form-control" type="password" id="current_password" name="current_password" required>
                   </div>
                 </div>
 
                 <div class="md-form">
                   <label for="password">変更後パスワード</label>
-                  <input class="form-control" type="password" id="password" name="password" required value="{{ old('password') }}">
+                  <input class="form-control" type="password" id="password" name="password" required>
                 </div>
 
                 <div class="md-form">
                   <label for="password_confirmation">変更後パスワード(再入力)</label>
-                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required value="{{ old('password_confirmation') }}">
+                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
 
                 <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit">変更する</button>
