@@ -28,4 +28,9 @@ class Booking extends Pivot
     {
         return $this->belongsTo('App\Book', 'book_id');
     }
+
+    public function lending(): BelongsTo
+    {
+        return $this->hasOne('App\Lending');
+    }
 }

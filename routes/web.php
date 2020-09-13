@@ -39,6 +39,8 @@ Route::prefix('bookings')->name('bookings.')->group(function () {
     Route::get('/', 'BookingController@index')->name('index')->middleware('auth:admin');
     Route::get('/{booking}', 'BookingController@show')->name('show')->middleware('auth:admin');
     Route::post('/{booking}', 'BookingController@approve')->name('approve')->middleware('auth:admin');
+    Route::post('/{booking}/lending', 'BookingController@lending')->name('lending')->middleware('auth:admin');
+    Route::post('/{booking}/returned', 'BookingController@returned')->name('returned')->middleware('auth:admin');
     Route::delete('/{booking}', 'BookingController@reject')->name('reject')->middleware('auth:admin');
 });
 
