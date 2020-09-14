@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\CustomResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,5 +72,16 @@ class User extends Authenticatable
         return $this->bookings()
             ->whereDate('booking_date_from', '<' ,Carbon::now())
             ->orderBy('booking_date_from', 'DESC');
+    }
+
+    /**
+     * パスワードリセット通知の送信
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomResetPassword($token));
     }
 }
