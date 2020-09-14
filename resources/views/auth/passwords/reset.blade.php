@@ -32,7 +32,7 @@
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required value="{{ old('password_confirmation') }}">
                 </div>
 
-                <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit">送信</button>
+                <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit">設定する</button>
 
               </form>
 

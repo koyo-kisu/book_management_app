@@ -16,7 +16,7 @@ class PasswordModificationController extends Controller
      */
     public function showForm()
     {
-        return view('auth.password.modify');
+        return view('auth.passwords.modify');
     }
     /**
      * パスワード変更処理

@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'パスワード再設定')
+@section('title', 'パスワードを忘れた方')
 
 @section('content')
   <div class="container">
@@ -8,7 +8,7 @@
       <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
         <div class="card mt-3">
           <div class="card-body text-center">
-            <h2 class="h3 card-title text-center mt-2">パスワード再設定</h2>
+            <h2 class="h3 card-title text-center mt-2">パスワードを忘れた方</h2>
 
             @include('error_card_list')
 
