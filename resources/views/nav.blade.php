@@ -10,7 +10,7 @@
   <ul class="navbar-nav ml-auto">
     @auth('admin')
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('books.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
+        <a class="nav-link" href="{{ route('books.create') }}"><i class="fas fa-pen mr-1"></i><span class="d-none d-md-inline">投稿する</span></a>
       </li>
       <li class="content_list">
         <form id="logout-button" method="POST" action="{{ route('admin.logout') }}">
