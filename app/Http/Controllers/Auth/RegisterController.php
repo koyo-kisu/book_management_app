@@ -73,17 +73,17 @@ class RegisterController extends Controller
         // 本登録データを見てバリデーションかける
         $this->validator($request->all())->validate();
 
+        DB::beginTransaction();
         // 仮登録データ作成
         $user = EmailVerification::build($request->all());
 
-        DB::beginTransaction();
         try {
             // 認証用メール送信
             Mail::to($request->email)->send(new \App\Mail\EmailVerification($user));
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            logger()->error("登録に失敗しました。 {$e->getMessage}", $e->getTrace());
+            logger()->error("登録に失敗しました。 {$e->getMessage()}", $e->getTrace());
             return redirect()->back()->withErrors(['error' => '登録に失敗しました。']);
         }
         return $this->registered();
@@ -125,24 +125,22 @@ class RegisterController extends Controller
 
         // バリデーション失敗時
         if($validator->fails()) {
-            dd(1);
             return $this->verifyFailed();
         }
 
-        $emailVerification = EmailVerification::findByIdToken($request->all());
+        $email_verification = EmailVerification::findByIdToken($request->all());
 
         // データが見つからない場合
-        if(empty($emailVerification)) {
-            dd(2);
+        if(empty($email_verification)) {
             return $this->verifyFailed();
         }
 
         DB::beginTransaction();
         try {
             // 仮登録情報を本登録ユーザーとして登録
-            event(new Registered($user = $this->createUser($emailVerification)));
+            event(new Registered($user = $this->createUser($email_verification)));
             // 仮登録情報を削除
-            $emailVerification->delete();
+            $email_verification->delete();
             // ログイン
             $this->guard()->login($user);
 
@@ -159,15 +157,15 @@ class RegisterController extends Controller
     /**
      * 本登録ユーザー作成
      *
-     * @param EmailVerification $emailVerification
+     * @param EmailVerification $email_verification
      * @return User $user
      */
-    protected function createUser(EmailVerification $emailVerification)
+    protected function createUser(EmailVerification $email_verification)
     {
         return User::create([
-            'name' => $emailVerification->name,
-            'email' => $emailVerification->email,
-            'password' =>  $emailVerification->password,
+            'name' => $email_verification->name,
+            'email' => $email_verification->email,
+            'password' =>  $email_verification->password,
         ]);
     }
 

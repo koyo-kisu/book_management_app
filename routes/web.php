@@ -17,6 +17,19 @@ Auth::routes();
 // ユーザーメール認証ルート
 Route::get('/register/verify', 'Auth\RegisterController@emailVerifyComplete')->name('register.verify')->middleware('guest');
 
+// パスワード変更ルート
+Route::get('/password/modify', 'Auth\PasswordModificationController@showForm')->name('password.modify')->middleware('auth');
+Route::post('/password/modify', 'Auth\PasswordModificationController@sendMail')->middleware('auth');
+
+
+// ユーザーメールアドレス変更ルート
+Route::prefix('email')->name('email.')->group(function () {
+    Route::get('/modify/check', 'Auth\EmailModificationController@checkModification')->name('modify.check');
+    Route::get('/modify', 'Auth\EmailModificationController@showForm')->name('modify')->middleware('auth');
+    Route::post('/modify', 'Auth\EmailModificationController@sendMail')->name('modify.send')->middleware('auth');
+});
+
+
 Route::get('/', 'BookController@index')->name('books.index');
 // リソースフルルートでルート定義
 Route::resource('/books', 'BookController')->except(['index', 'show'])->middleware('auth:admin');
